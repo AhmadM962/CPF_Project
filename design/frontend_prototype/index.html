@@ -1,0 +1,2296 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>نـشـامـى شيلد | Nashama Shield</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap CSS (RTL) -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Bootstrap Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+  />
+
+  <style>
+    :root{
+      --bg: #0b1220;          /* page bg */
+      --surface: #0f172a;     /* app shell bg */
+      --card: #111c33;        /* card bg */
+      --card-2: #0f1a2f;      /* secondary surface */
+      --border: rgba(148,163,184,.18);
+      --text: #e5e7eb;
+      --muted: rgba(229,231,235,.75);
+
+      --primary: #38bdf8;
+      --primary-2:#0ea5e9;
+
+      --safe: #22c55e;
+      --warn: #f59e0b;
+      --danger:#ef4444;
+      --info:  #94a3b8;
+
+      --radius: 16px;
+      --radius2: 14px;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+
+      --tap: 48px;
+    }
+
+    body{
+      background: radial-gradient(1200px 800px at 50% -10%, rgba(56,189,248,.18), transparent 50%),
+                  linear-gradient(180deg, #070b14, var(--bg));
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .app-shell{
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display:flex;
+      flex-direction:column;
+      background: linear-gradient(180deg, rgba(2,6,23,.95), rgba(2,6,23,.95));
+      box-shadow: 0 0 55px rgba(0,0,0,.55);
+      border-left: 1px solid rgba(148,163,184,.08);
+      border-right: 1px solid rgba(148,163,184,.08);
+    }
+
+    /* ===== App Bar ===== */
+    .appbar{
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid var(--border);
+      background:
+        radial-gradient(600px 180px at 50% 0%, rgba(56,189,248,.22), transparent 60%),
+        linear-gradient(180deg, rgba(2,6,23,.95), rgba(2,6,23,.92));
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .app-title{
+      display:flex; align-items:center; gap:10px;
+    }
+
+    .brand-mark{
+      width: 34px; height: 34px;
+      border-radius: 999px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(15,23,42,.85);
+      border: 1px solid rgba(148,163,184,.20);
+      box-shadow: 0 0 0 3px rgba(56,189,248,.10);
+      color: var(--safe);
+      flex: 0 0 auto;
+    }
+
+    .brand-name{
+      line-height: 1.1;
+    }
+
+    .brand-name .primary-line{
+      font-weight: 700;
+      font-size: 0.98rem;
+      letter-spacing: .1px;
+    }
+
+    .brand-name .secondary-line{
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .lang-btn{
+      min-height: 36px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.20) !important;
+      background: rgba(15,23,42,.65);
+      color: var(--text);
+      padding: 6px 10px;
+    }
+    .lang-btn:active { transform: translateY(1px); }
+
+    .subbar{
+      margin-top: 10px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 10px;
+    }
+
+    .status-pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(34,197,94,.25);
+      background: rgba(34,197,94,.10);
+      color: #c7f9d5;
+      font-size: .78rem;
+      white-space: nowrap;
+    }
+
+    .status-dot{
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--safe);
+      box-shadow: 0 0 14px rgba(34,197,94,.65);
+    }
+
+    .trust-pill{
+      display:inline-flex; align-items:center; gap:6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(56,189,248,.20);
+      background: rgba(56,189,248,.08);
+      color: rgba(224,242,254,.95);
+      font-size: .78rem;
+      white-space: nowrap;
+    }
+
+    /* ===== Main Content ===== */
+    main.app-content{
+      flex: 1;
+      padding: 12px 12px 80px; /* leave space for bottom nav */
+      overflow-y:auto;
+    }
+    main.app-content::-webkit-scrollbar { width: 4px; }
+    main.app-content::-webkit-scrollbar-thumb { background: rgba(148,163,184,.55); border-radius: 999px; }
+
+    .section-title{
+      display:flex; align-items:center; justify-content:space-between;
+      margin: 6px 2px 10px;
+    }
+    .section-title h6{
+      margin:0; font-weight: 800;
+      letter-spacing:.1px;
+    }
+    .section-title small{
+      color: var(--muted);
+    }
+
+    /* ===== Surfaces ===== */
+    .card-surface{
+      background: linear-gradient(180deg, rgba(17,28,51,.98), rgba(14,23,44,.98));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .card-soft{
+      background: rgba(17,28,51,.60);
+      border: 1px solid rgba(148,163,184,.14);
+      border-radius: var(--radius);
+    }
+
+    .pad-md{ padding: 14px; }
+    .pad-sm{ padding: 12px; }
+
+    /* ===== Quick Actions ===== */
+    .action-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .action-card{
+      min-height: 92px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(148,163,184,.16);
+      background: linear-gradient(180deg, rgba(15,26,47,.92), rgba(15,26,47,.70));
+      padding: 12px;
+      cursor:pointer;
+      transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+      position: relative;
+      overflow:hidden;
+    }
+    .action-card:hover{
+      transform: translateY(-1px);
+      border-color: rgba(56,189,248,.35);
+      box-shadow: 0 0 0 3px rgba(56,189,248,.10);
+    }
+    .action-card:active{ transform: translateY(1px); }
+
+    .action-top{
+      display:flex; align-items:flex-start; justify-content:space-between;
+      gap:10px;
+      margin-bottom: 8px;
+    }
+    .action-icon{
+      width: 34px; height: 34px; border-radius: 12px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(2,6,23,.55);
+      border: 1px solid rgba(148,163,184,.16);
+      color: var(--primary);
+      flex: 0 0 auto;
+    }
+    .action-title{
+      font-weight: 800;
+      margin:0;
+      font-size: .95rem;
+    }
+    .action-sub{
+      color: var(--muted);
+      font-size: .78rem;
+      margin: 2px 0 0;
+      line-height: 1.25;
+    }
+    .action-arrow{
+      color: rgba(229,231,235,.75);
+      font-size: 1rem;
+      flex: 0 0 auto;
+    }
+
+    .primary-action{
+      grid-column: 1 / span 2;
+      min-height: 100px;
+      background:
+        radial-gradient(600px 200px at 30% 0%, rgba(56,189,248,.18), transparent 60%),
+        linear-gradient(180deg, rgba(15,26,47,.95), rgba(15,26,47,.72));
+      border-color: rgba(56,189,248,.28);
+    }
+    .primary-action .action-icon{ color: #fff; background: rgba(56,189,248,.18); border-color: rgba(56,189,248,.25); }
+    .primary-action .action-arrow{ color: #e0f2fe; }
+
+    /* ===== Alert Preview ===== */
+    .severity-strip{
+      width: 6px;
+      border-radius: 999px;
+      margin-left: 10px;
+      flex: 0 0 auto;
+      height: 100%;
+      align-self: stretch;
+      background: var(--info);
+      opacity: .9;
+    }
+    .sev-high{ background: var(--danger); box-shadow: 0 0 18px rgba(239,68,68,.25); }
+    .sev-med{ background: var(--warn); box-shadow: 0 0 18px rgba(245,158,11,.25); }
+    .sev-info{ background: var(--info); }
+
+    .pill{
+      display:inline-flex; align-items:center; gap:6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: .75rem;
+      border: 1px solid rgba(148,163,184,.20);
+      background: rgba(2,6,23,.25);
+      color: rgba(229,231,235,.85);
+      white-space: nowrap;
+    }
+    .pill-danger{ border-color: rgba(239,68,68,.30); background: rgba(239,68,68,.10); color: #ffd2d2; }
+    .pill-warn{ border-color: rgba(245,158,11,.30); background: rgba(245,158,11,.10); color: #ffe7c2; }
+    .pill-info{ border-color: rgba(148,163,184,.30); background: rgba(148,163,184,.10); color: #eef2ff; }
+    .pill-safe{ border-color: rgba(34,197,94,.30); background: rgba(34,197,94,.10); color: #c7f9d5; }
+
+    /* ===== Awareness Card ===== */
+    .awareness{
+      display:flex; gap: 12px; align-items:flex-start;
+    }
+    .awareness .bulb{
+      width: 40px; height: 40px;
+      border-radius: 14px;
+      background: rgba(245,158,11,.10);
+      border: 1px solid rgba(245,158,11,.22);
+      display:flex; align-items:center; justify-content:center;
+      color: var(--warn);
+      flex: 0 0 auto;
+    }
+    .awareness h6{ margin:0; font-weight: 800; }
+    .awareness p{ margin: 4px 0 0; color: var(--muted); font-size: .84rem; line-height: 1.35; }
+
+    /* ===== Weekly stats cards ===== */
+    .stats-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .stat-card{
+      border-radius: var(--radius);
+      border: 1px solid rgba(148,163,184,.16);
+      background: rgba(17,28,51,.60);
+      padding: 10px;
+      text-align:center;
+    }
+    .stat-num{ font-size: 1.05rem; font-weight: 900; margin:0; }
+    .stat-lbl{ font-size: .72rem; color: var(--muted); margin: 2px 0 0; line-height: 1.2;}
+    .stat-ico{ font-size: 1.05rem; margin-bottom: 6px; opacity:.95; }
+
+    /* ===== Scan selector ===== */
+    .scan-selector{
+      display:flex;
+      gap: 8px;
+      overflow-x:auto;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+    .scan-selector::-webkit-scrollbar{ height: 0px; }
+    .seg-btn{
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.18);
+      background: rgba(17,28,51,.45);
+      color: rgba(229,231,235,.85);
+      padding: 8px 12px;
+      font-size: .80rem;
+      display:inline-flex;
+      align-items:center;
+      gap: 7px;
+      white-space: nowrap;
+      min-height: 38px;
+      cursor:pointer;
+      transition: all .12s ease;
+      user-select:none;
+    }
+    .seg-btn i{ opacity:.9; }
+    .seg-btn.active{
+      border-color: rgba(56,189,248,.35);
+      background: rgba(56,189,248,.10);
+      color: #e0f2fe;
+      box-shadow: 0 0 0 3px rgba(56,189,248,.09);
+    }
+
+    /* ===== Forms ===== */
+    .form-label{
+      font-size: .80rem;
+      color: rgba(229,231,235,.80);
+      margin-bottom: 6px;
+    }
+    input.form-control, textarea.form-control, select.form-select{
+      background: rgba(2,6,23,.45);
+      border: 1px solid rgba(148,163,184,.18);
+      color: var(--text);
+      border-radius: 14px;
+      min-height: var(--tap);
+    }
+    textarea.form-control{ min-height: 120px; }
+    input.form-control:focus, textarea.form-control:focus, select.form-select:focus{
+      border-color: rgba(56,189,248,.50);
+      box-shadow: 0 0 0 3px rgba(56,189,248,.12);
+      background: rgba(2,6,23,.55);
+      color: var(--text);
+    }
+    .helper{
+      color: var(--muted);
+      font-size: .76rem;
+      margin-top: 6px;
+      line-height: 1.25;
+    }
+
+    .btn-primaryish{
+      background: linear-gradient(180deg, rgba(56,189,248,.95), rgba(14,165,233,.95));
+      border: none;
+      color: #001018;
+      font-weight: 800;
+      border-radius: 14px;
+      min-height: var(--tap);
+    }
+    .btn-primaryish:active{ transform: translateY(1px); }
+    .btn-outline-soft{
+      border-radius: 14px;
+      min-height: var(--tap);
+      border: 1px solid rgba(148,163,184,.20);
+      background: rgba(2,6,23,.25);
+      color: rgba(229,231,235,.90);
+    }
+
+    /* ===== Result cards (XAI) ===== */
+    .result-hero{
+      border-radius: var(--radius);
+      padding: 14px;
+      border: 1px solid rgba(148,163,184,.18);
+      background: rgba(17,28,51,.55);
+      box-shadow: var(--shadow);
+    }
+    .result-hero.safe{
+      border-color: rgba(34,197,94,.28);
+      background: linear-gradient(180deg, rgba(34,197,94,.12), rgba(17,28,51,.45));
+    }
+    .result-hero.warn{
+      border-color: rgba(245,158,11,.28);
+      background: linear-gradient(180deg, rgba(245,158,11,.12), rgba(17,28,51,.45));
+    }
+    .result-hero.danger{
+      border-color: rgba(239,68,68,.28);
+      background: linear-gradient(180deg, rgba(239,68,68,.12), rgba(17,28,51,.45));
+    }
+
+    .risk-badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-weight: 900;
+      letter-spacing:.2px;
+      font-size: .80rem;
+      border: 1px solid rgba(148,163,184,.18);
+      background: rgba(2,6,23,.35);
+    }
+    .risk-badge.safe{ border-color: rgba(34,197,94,.35); color: #c7f9d5; }
+    .risk-badge.warn{ border-color: rgba(245,158,11,.35); color: #ffe7c2; }
+    .risk-badge.danger{ border-color: rgba(239,68,68,.35); color: #ffd2d2; }
+
+    .confidence{
+      font-size: .78rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .reason-chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .reason-chip{
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.18);
+      background: rgba(2,6,23,.30);
+      color: rgba(229,231,235,.92);
+      padding: 8px 10px;
+      font-size: .78rem;
+      display:inline-flex; align-items:center; gap: 7px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .reason-chip:hover{
+      border-color: rgba(56,189,248,.30);
+      box-shadow: 0 0 0 3px rgba(56,189,248,.08);
+    }
+
+    .message-preview{
+      margin-top: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,.16);
+      background: rgba(2,6,23,.35);
+      padding: 12px;
+      color: rgba(229,231,235,.92);
+      font-size: .86rem;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .hl{
+      padding: 1px 4px;
+      border-radius: 8px;
+      border: 1px solid rgba(148,163,184,.18);
+      background: rgba(148,163,184,.10);
+    }
+    .hl-danger{
+      border-color: rgba(239,68,68,.30);
+      background: rgba(239,68,68,.12);
+    }
+    .hl-warn{
+      border-color: rgba(245,158,11,.30);
+      background: rgba(245,158,11,.12);
+    }
+    .hl-info{
+      border-color: rgba(56,189,248,.30);
+      background: rgba(56,189,248,.10);
+    }
+
+    /* ===== Alerts list ===== */
+    .filter-bar{
+      position: sticky;
+      top: 78px; /* below appbar; adjust if needed */
+      z-index: 900;
+      padding: 8px 0;
+      background: rgba(2,6,23,.78);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(148,163,184,.08);
+      margin: 0 -12px 10px;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    .chip{
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.18);
+      background: rgba(17,28,51,.45);
+      color: rgba(229,231,235,.88);
+      padding: 7px 10px;
+      font-size: .78rem;
+      min-height: 36px;
+    }
+    .chip.active{
+      border-color: rgba(56,189,248,.35);
+      background: rgba(56,189,248,.10);
+      color: #e0f2fe;
+      box-shadow: 0 0 0 3px rgba(56,189,248,.08);
+    }
+
+    .alert-item{
+      border-radius: var(--radius);
+      border: 1px solid rgba(148,163,184,.16);
+      background: rgba(17,28,51,.55);
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .alert-head{
+      display:flex; align-items:flex-start; justify-content:space-between; gap: 10px;
+    }
+    .alert-title{
+      margin: 8px 0 6px;
+      font-weight: 900;
+      font-size: .95rem;
+      line-height: 1.25;
+    }
+    .alert-meta{
+      color: var(--muted);
+      font-size: .76rem;
+      line-height: 1.2;
+    }
+    .alert-body{
+      color: rgba(229,231,235,.86);
+      font-size: .84rem;
+      line-height: 1.35;
+      margin-top: 10px;
+      display:none;
+    }
+    .alert-actions{
+      margin-top: 10px;
+      display:flex;
+      gap: 8px;
+    }
+
+    /* ===== Report flow ===== */
+    .stepper{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom: 10px;
+    }
+    .step-pill{
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.18);
+      background: rgba(17,28,51,.45);
+      color: rgba(229,231,235,.86);
+      padding: 6px 10px;
+      font-size: .78rem;
+      display:inline-flex;
+      align-items:center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+    .step-pill.active{
+      border-color: rgba(56,189,248,.35);
+      background: rgba(56,189,248,.10);
+      color: #e0f2fe;
+    }
+
+    .report-type{
+      border-radius: var(--radius);
+      border: 1px solid rgba(148,163,184,.16);
+      background: rgba(17,28,51,.55);
+      padding: 12px;
+      cursor:pointer;
+      transition: all .12s ease;
+      height: 100%;
+    }
+    .report-type:hover{
+      border-color: rgba(56,189,248,.28);
+      box-shadow: 0 0 0 3px rgba(56,189,248,.08);
+    }
+    .report-type.active{
+      border-color: rgba(34,197,94,.28);
+      box-shadow: 0 0 0 3px rgba(34,197,94,.10);
+    }
+    .report-type h6{
+      margin: 8px 0 4px;
+      font-weight: 900;
+      font-size: .92rem;
+    }
+    .report-type p{
+      margin:0;
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.25;
+    }
+
+    /* ===== Bottom nav ===== */
+    .bottom-nav{
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+      width: 100%;
+      max-width: 430px;
+      border-top: 1px solid rgba(148,163,184,.14);
+      background: rgba(2,6,23,.90);
+      backdrop-filter: blur(10px);
+      padding: 6px 8px 10px;
+      z-index: 1100;
+    }
+    .bottom-nav .nav-link{
+      border-radius: 14px;
+      color: rgba(229,231,235,.72);
+      padding: 10px 6px;
+      min-height: 52px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap: 4px;
+      user-select:none;
+    }
+    .bottom-nav .nav-link i{ font-size: 1.15rem; }
+    .bottom-nav .nav-link span{ font-size: .73rem; }
+    .bottom-nav .nav-link.active{
+      color: #e0f2fe;
+      background: rgba(56,189,248,.10);
+      border: 1px solid rgba(56,189,248,.25);
+      box-shadow: 0 0 0 3px rgba(56,189,248,.06);
+    }
+
+    /* Utility */
+    .d-none{ display:none !important; }
+    .divider{ height: 1px; background: rgba(148,163,184,.12); margin: 12px 0; }
+
+    @media (max-width: 480px){
+      .app-shell{ box-shadow:none; border-left:none; border-right:none; }
+      .bottom-nav{ border-radius: 0; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <!-- App Bar -->
+    <header class="appbar">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="app-title">
+          <div class="brand-mark"><i class="bi bi-shield-check"></i></div>
+          <div class="brand-name">
+            <div class="primary-line">درع النشامى <span class="text-info fw-normal">| Nashama Shield</span></div>
+            <div class="secondary-line">حماية مالك، كلمتك، وحياتك الرقمية</div>
+          </div>
+        </div>
+        <button class="btn lang-btn" id="langToggleBtn" type="button">
+          <i class="bi bi-translate"></i>
+          <span id="langToggleLabel">عربي</span>
+        </button>
+      </div>
+
+      <div class="subbar">
+        <span class="status-pill">
+          <span class="status-dot"></span>
+          <span id="statusText">النظام يعمل – أنت محمي</span>
+        </span>
+
+        <span class="trust-pill">
+          <i class="bi bi-shield-lock"></i>
+          <span>On-device</span>
+        </span>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-content">
+
+      <!-- HOME -->
+      <section id="tab-home" class="tab-section">
+        <div class="section-title">
+          <h6>إجراءات سريعة</h6>
+          <small>قبل الضغط أو التحويل — افحص</small>
+        </div>
+
+        <div class="action-grid mb-3">
+          <div class="action-card primary-action" data-open-scan="sms">
+            <div class="action-top">
+              <div class="d-flex align-items-start gap-10">
+                <div class="action-icon"><i class="bi bi-chat-square-text"></i></div>
+              </div>
+              <div class="action-arrow"><i class="bi bi-arrow-left"></i></div>
+            </div>
+            <p class="action-title">فحص رسالة / نص</p>
+            <p class="action-sub">الصق الرسالة وسنوضح لك لماذا قد تكون تصيّدًا وما الذي يجب فعله.</p>
+          </div>
+
+          <div class="action-card" data-open-scan="link">
+            <div class="action-top">
+              <div class="action-icon" style="color: var(--primary)"><i class="bi bi-link-45deg"></i></div>
+              <div class="action-arrow"><i class="bi bi-arrow-left"></i></div>
+            </div>
+            <p class="action-title">فحص رابط</p>
+            <p class="action-sub">تحقق من الروابط قبل إدخال أي بيانات.</p>
+          </div>
+
+          <div class="action-card" data-open-scan="cliq">
+            <div class="action-top">
+              <div class="action-icon" style="color: var(--warn)"><i class="bi bi-credit-card-2-front"></i></div>
+              <div class="action-arrow"><i class="bi bi-arrow-left"></i></div>
+            </div>
+            <p class="action-title">فحص CliQ / رقم</p>
+            <p class="action-sub">قبل التحويل — تأكد من المستلم.</p>
+          </div>
+
+          <div class="action-card" data-open-scan="news">
+            <div class="action-top">
+              <div class="action-icon" style="color: var(--safe)"><i class="bi bi-newspaper"></i></div>
+              <div class="action-arrow"><i class="bi bi-arrow-left"></i></div>
+            </div>
+            <p class="action-title">فحص خبر / شائعة</p>
+            <p class="action-sub">تحقق قبل النشر أو المشاركة.</p>
+          </div>
+        </div>
+
+        <!-- Latest alert preview -->
+        <div class="card-surface pad-md mb-3">
+          <div class="d-flex align-items-start justify-content-between gap-2">
+            <div class="d-flex align-items-stretch">
+              <div class="severity-strip sev-high"></div>
+              <div>
+                <div class="d-flex align-items-center gap-2">
+                  <span class="pill pill-danger"><i class="bi bi-exclamation-triangle"></i> عالي الخطورة</span>
+                  <span class="pill pill-info"><i class="bi bi-broadcast-pin"></i> تنبيه رسمي</span>
+                </div>
+                <div class="alert-title mt-2" id="homeAlertTitle">
+                  رسائل تنتحل البريد الأردني وتطلب رسوم جمركية عبر روابط مزيفة
+                </div>
+                <div class="alert-meta" id="homeAlertMeta">المصدر: NCSC + البريد الأردني • منذ 3 ساعات</div>
+                <div class="mt-2" style="color: rgba(229,231,235,.88); font-size:.84rem; line-height:1.35" id="homeAlertText">
+                  لا تدفع عبر روابط قصيرة. استخدم التطبيق الرسمي أو الموقع الحكومي فقط.
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-outline-soft" data-open-tab="alerts" type="button">
+              عرض
+            </button>
+          </div>
+        </div>
+
+        <!-- Daily Awareness -->
+        <div class="card-soft pad-md mb-3">
+          <div class="awareness">
+            <div class="bulb"><i class="bi bi-lightbulb"></i></div>
+            <div class="flex-grow-1">
+              <h6 class="mb-0">بطاقة توعية اليوم</h6>
+              <p id="awarenessText">
+                لا تشارك رمز التحقق (OTP) مع أي شخص — حتى لو قال إنه من البنك أو جهة حكومية.
+              </p>
+              <button class="btn btn-outline-soft mt-2" type="button" id="awarenessMoreBtn">
+                اعرف أكثر
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weekly summary (down the page) -->
+        <div class="section-title">
+          <h6>ملخص هذا الأسبوع</h6>
+          <small>نشاط الحماية على جهازك</small>
+        </div>
+
+        <div class="stats-grid mb-2">
+          <div class="stat-card">
+            <div class="stat-ico" style="color: var(--danger)"><i class="bi bi-shield-fill-exclamation"></i></div>
+            <p class="stat-num" id="statBlockedSms">12</p>
+            <p class="stat-lbl">رسائل مشبوهة تم اكتشافها</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-ico" style="color: var(--warn)"><i class="bi bi-credit-card"></i></div>
+            <p class="stat-num" id="statCliqChecks">5</p>
+            <p class="stat-lbl">عمليات CliQ تم فحصها</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-ico" style="color: var(--primary)"><i class="bi bi-newspaper"></i></div>
+            <p class="stat-num" id="statRumorChecks">4</p>
+            <p class="stat-lbl">أخبار/شائعات تم فحصها</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCAN -->
+      <section id="tab-scan" class="tab-section d-none">
+        <div class="section-title">
+          <h6>الفحص والتحقق</h6>
+          <small>اختر نوع الفحص</small>
+        </div>
+
+        <!-- Selector -->
+        <div class="scan-selector" id="scanSelector">
+          <div class="seg-btn active" data-scan="sms"><i class="bi bi-chat-square-text"></i> رسالة</div>
+          <div class="seg-btn" data-scan="link"><i class="bi bi-link-45deg"></i> رابط</div>
+          <div class="seg-btn" data-scan="cliq"><i class="bi bi-credit-card-2-front"></i> CliQ</div>
+          <div class="seg-btn" data-scan="news"><i class="bi bi-newspaper"></i> خبر/شائعة</div>
+        </div>
+
+        <!-- Workspace -->
+        <div id="scan-workspace"></div>
+      </section>
+
+      <!-- ALERTS -->
+      <section id="tab-alerts" class="tab-section d-none">
+        <div class="section-title">
+          <h6>التنبيهات</h6>
+          <small><i class="bi bi-broadcast-pin"></i> من الجهات الرسمية</small>
+        </div>
+
+        <div class="filter-bar">
+          <div class="d-flex gap-2 flex-wrap">
+            <button class="btn chip active" data-alert-filter="all" type="button">الكل</button>
+            <button class="btn chip" data-alert-filter="scam" type="button">احتيال</button>
+            <button class="btn chip" data-alert-filter="bank" type="button">بنوك</button>
+            <button class="btn chip" data-alert-filter="gov" type="button">حكومي</button>
+            <button class="btn chip" data-alert-filter="rumor" type="button">شائعات</button>
+          </div>
+        </div>
+
+        <div id="alertsList"></div>
+      </section>
+
+      <!-- REPORT -->
+      <section id="tab-report" class="tab-section d-none">
+        <div class="section-title">
+          <h6>الإبلاغ</h6>
+          <small>بلاغ رسمي منظم</small>
+        </div>
+
+        <div class="stepper">
+          <span class="step-pill active" id="stepPill1"><i class="bi bi-1-circle"></i> اختيار النوع</span>
+          <span class="step-pill" id="stepPill2"><i class="bi bi-2-circle"></i> تفاصيل البلاغ</span>
+        </div>
+
+        <!-- Step 1 -->
+        <div id="reportStep1">
+          <div class="card-soft pad-md mb-3">
+            <div class="text-light fw-bold mb-2">اختر نوع البلاغ</div>
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="report-type" data-report-type="phishing">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span class="pill pill-danger"><i class="bi bi-bug-fill"></i> احتيال</span>
+                    <i class="bi bi-chat-square-text" style="color: var(--danger); font-size: 1.25rem;"></i>
+                  </div>
+                  <h6>رسالة أو رابط احتيالي</h6>
+                  <p>انتحال بنك/جهة حكومية أو طلب بيانات/دفع.</p>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="report-type" data-report-type="fraud">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span class="pill pill-warn"><i class="bi bi-credit-card-2-front"></i> مالي</span>
+                    <i class="bi bi-cash-coin" style="color: var(--warn); font-size: 1.25rem;"></i>
+                  </div>
+                  <h6>احتيال مالي / CliQ</h6>
+                  <p>تحويل أموال ولم تستلم خدمة/منتج.</p>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="report-type" data-report-type="harassment">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span class="pill pill-info"><i class="bi bi-shield-exclamation"></i> شخصي</span>
+                    <i class="bi bi-shield-exclamation" style="color: var(--primary); font-size: 1.25rem;"></i>
+                  </div>
+                  <h6>ابتزاز أو تهديد</h6>
+                  <p>تهديد، تشويه سمعة، ابتزاز بصور/معلومات.</p>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="report-type" data-report-type="harmful">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span class="pill pill-info"><i class="bi bi-flag"></i> عام</span>
+                    <i class="bi bi-flag" style="color: #60a5fa; font-size: 1.25rem;"></i>
+                  </div>
+                  <h6>محتوى ضار</h6>
+                  <p>محتوى مسيء أو تحريضي أو مضلل واسع الانتشار.</p>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-primaryish w-100 mt-3" id="reportNextBtn" type="button" disabled>
+              التالي
+              <i class="bi bi-arrow-left ms-1"></i>
+            </button>
+
+            <div class="helper mt-2">
+              * في النسخة التجريبية: لا يتم إرسال البلاغ فعلياً، لكنها تحاكي تدفق البلاغ الرسمي.
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div id="reportStep2" class="d-none">
+          <div class="card-surface pad-md mb-3">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <div class="text-light fw-bold">تفاصيل البلاغ</div>
+                <div class="helper">اكتب وصفاً مختصراً واحتفظ بالأدلة (صور/محادثات/إيصالات).</div>
+              </div>
+              <button class="btn btn-outline-soft" id="reportBackBtn" type="button">
+                رجوع
+              </button>
+            </div>
+
+            <div class="divider"></div>
+
+            <form id="reportForm">
+              <div class="mb-2">
+                <label class="form-label">وصف مختصر لما حدث</label>
+                <textarea class="form-control" id="reportDesc" required
+                  placeholder="مثال: استلمت رسالة على واتساب تدّعي أنها من البنك وتطلب تحويل مبلغ على CliQ..."></textarea>
+                <div class="helper">اكتب التفاصيل الأساسية فقط: ماذا حدث؟ من أين؟ ماذا طُلِب منك؟</div>
+              </div>
+
+              <div class="mb-2">
+                <label class="form-label">أين حدث ذلك؟</label>
+                <select class="form-select" id="reportPlatform">
+                  <option selected>واتساب</option>
+                  <option>رسائل SMS</option>
+                  <option>فيسبوك</option>
+                  <option>إنستغرام</option>
+                  <option>تيك توك</option>
+                  <option>تويتر / X</option>
+                  <option>أخرى</option>
+                </select>
+              </div>
+
+              <div class="mb-2">
+                <label class="form-label">هل تم تحويل أموال أو خسارة مالية؟</label>
+                <div class="d-flex gap-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="loss" id="lossNo" checked>
+                    <label class="form-check-label" for="lossNo">لا</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="loss" id="lossYes">
+                    <label class="form-check-label" for="lossYes">نعم</label>
+                  </div>
+                </div>
+              </div>
+
+              <div id="lossDetails" class="mb-2 d-none">
+                <label class="form-label">معلومات إضافية عن الخسارة</label>
+                <input class="form-control" id="lossInfo" placeholder="المبلغ التقريبي، طريقة الدفع (CliQ، بطاقة، غيره)">
+              </div>
+
+              <div class="mb-2">
+                <label class="form-label">معلومات تواصل (اختياري)</label>
+                <input class="form-control mb-2" id="contactName" placeholder="الاسم (اختياري)">
+                <input class="form-control" id="contactPhone" placeholder="رقم الهاتف (اختياري)">
+              </div>
+
+              <button class="btn btn-primaryish w-100 mt-2" type="submit">
+                إرسال البلاغ (تجريبي)
+                <i class="bi bi-send-check ms-1"></i>
+              </button>
+
+              <div id="reportStatus" class="mt-3 d-none">
+                <div class="card-soft pad-md">
+                  <div class="d-flex align-items-start gap-2">
+                    <div class="action-icon" style="color: var(--safe)"><i class="bi bi-check-circle"></i></div>
+                    <div>
+                      <div class="fw-bold">تم استلام البلاغ (تجريبي)</div>
+                      <div class="helper mt-1">
+                        احتفظ بالأدلة ولا تحذف المحادثة أو الروابط. قد تتواصل معك الجهة المختصة عند الحاجة.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- MORE -->
+      <section id="tab-more" class="tab-section d-none">
+        <div class="section-title">
+          <h6>المزيد</h6>
+          <small>الخصوصية والمعلومات</small>
+        </div>
+
+        <!-- Privacy -->
+        <div class="card-surface pad-md mb-3">
+          <div class="fw-bold mb-1">الخصوصية</div>
+          <div class="helper mb-2">
+            يتم تحليل المحتوى على الجهاز فقط في النسخة المستقبلية. حالياً هذا نموذج واجهة وتجربة.
+          </div>
+
+          <div class="form-check form-switch mb-2">
+            <input class="form-check-input" type="checkbox" id="onDeviceToggle" checked>
+            <label class="form-check-label" for="onDeviceToggle">تحليل محلي على الجهاز (موصى به)</label>
+            <div class="helper">لا يتم رفع محتوى الرسائل لخوادم خارجية.</div>
+          </div>
+
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="anonUsageToggle" checked>
+            <label class="form-check-label" for="anonUsageToggle">استخدام مجهول الهوية</label>
+            <div class="helper">يساعد على حماية الخصوصية (تجريبي).</div>
+          </div>
+        </div>
+
+        <!-- Partners -->
+        <div class="card-surface pad-md mb-3">
+          <div class="fw-bold mb-2">شركاء وتكامل مستقبلي</div>
+
+          <div class="d-flex flex-column gap-2">
+            <div class="card-soft pad-sm d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center gap-2">
+                <div class="action-icon" style="color: var(--primary)"><i class="bi bi-shield-lock"></i></div>
+                <div>
+                  <div class="fw-bold" style="font-size:.88rem">المركز الوطني للأمن السيبراني (NCSC)</div>
+                  <div class="helper">تنبيهات وحملات التحذير.</div>
+                </div>
+              </div>
+              <span class="pill pill-info">قريباً</span>
+            </div>
+
+            <div class="card-soft pad-sm d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center gap-2">
+                <div class="action-icon" style="color: var(--warn)"><i class="bi bi-bank"></i></div>
+                <div>
+                  <div class="fw-bold" style="font-size:.88rem">البنك المركزي (CBJ) + Jo-FinCERT</div>
+                  <div class="helper">تنبيهات مصرفية وروابط التصيّد.</div>
+                </div>
+              </div>
+              <span class="pill pill-info">قريباً</span>
+            </div>
+
+            <div class="card-soft pad-sm d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center gap-2">
+                <div class="action-icon" style="color: var(--safe)"><i class="bi bi-credit-card"></i></div>
+                <div>
+                  <div class="fw-bold" style="font-size:.88rem">JoPACC + CliQ</div>
+                  <div class="helper">تحقق قبل التحويل.</div>
+                </div>
+              </div>
+              <span class="pill pill-info">قريباً</span>
+            </div>
+
+            <div class="card-soft pad-sm d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center gap-2">
+                <div class="action-icon" style="color: var(--primary)"><i class="bi bi-check2-circle"></i></div>
+                <div>
+                  <div class="fw-bold" style="font-size:.88rem">منصات التحقق (حقّك تعرف / أكيد)</div>
+                  <div class="helper">فحص الأخبار والشائعات.</div>
+                </div>
+              </div>
+              <span class="pill pill-info">قريباً</span>
+            </div>
+
+            <div class="card-soft pad-sm d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center gap-2">
+                <div class="action-icon" style="color: var(--danger)"><i class="bi bi-flag"></i></div>
+                <div>
+                  <div class="fw-bold" style="font-size:.88rem">وحدة مكافحة الجرائم الإلكترونية</div>
+                  <div class="helper">استقبال البلاغات وتوجيهها.</div>
+                </div>
+              </div>
+              <span class="pill pill-info">قريباً</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- About -->
+        <div class="card-surface pad-md">
+          <div class="fw-bold mb-2">عن التطبيق</div>
+          <div class="helper">
+            نسخة تجريبية (UI + منطق تجريبي) لتصور تطبيق وطني موحّد لحماية المواطن رقمياً.
+            تم تصميمها كمشروع ابتكاري ضمن جائزة ولي العهد لأفضل تطبيق خدمات حكومية.
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="d-flex align-items-center justify-content-between">
+            <span class="helper">الإصدار: 0.2.0 (تصميم محسّن)</span>
+            <span class="pill pill-info">Prototype</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <ul class="nav nav-pills nav-fill">
+        <li class="nav-item">
+          <a class="nav-link active" href="#" data-tab-target="home">
+            <i class="bi bi-house-door"></i>
+            <span>الرئيسية</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tab-target="scan">
+            <i class="bi bi-search"></i>
+            <span>فحص</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tab-target="alerts">
+            <i class="bi bi-broadcast-pin"></i>
+            <span>تنبيهات</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tab-target="report">
+            <i class="bi bi-flag"></i>
+            <span>بلاغ</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tab-target="more">
+            <i class="bi bi-three-dots"></i>
+            <span>المزيد</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- App JS -->
+  <script>
+    // =========================
+    // State
+    // =========================
+    const state = {
+      currentTab: "home",
+      currentScanTool: "sms",
+      language: "ar",
+      selectedReportType: null,
+
+      // Daily Awareness tips (simple local rotation)
+      awarenessTips: [
+        { title: "OTP", text: "لا تشارك رمز التحقق (OTP) مع أي شخص — حتى لو ادّعى أنه من البنك أو جهة حكومية." },
+        { title: "الاستعجال", text: "المحتالون يستعجلونك حتى لا تفكر. توقف دقيقة وتحقق من المصدر الرسمي." },
+        { title: "الروابط القصيرة", text: "الروابط المختصرة قد تُخفي مواقع مزيفة. اكتب عنوان الموقع الرسمي بنفسك." },
+        { title: "CliQ", text: "قبل التحويل عبر CliQ: تحقق من هوية المستلم وتجنب الدفع الكامل مسبقاً." },
+        { title: "الشائعات", text: "إذا كان الخبر يثير الخوف أو الغضب، غالباً يحتاج تحقق. لا تنشر قبل التأكد." },
+      ],
+
+      alerts: [
+        {
+          id: 1,
+          type: "scam",
+          severity: "high",
+          title: "رسائل تنتحل البريد الأردني وتطلب رسوم جمركية عبر روابط مزيفة",
+          source: "NCSC + البريد الأردني",
+          time: "منذ 3 ساعات",
+          body:
+            "تنتشر حالياً رسائل وروابط تدّعي أنها من البريد الأردني وتطلب دفع رسوم بسيطة عبر مواقع غير رسمية. لا تقم بالدفع واستخدم القنوات الرسمية فقط."
+        },
+        {
+          id: 2,
+          type: "bank",
+          severity: "medium",
+          title: "تحذير من روابط تحديث بيانات الحساب البنكي",
+          source: "البنك المركزي الأردني + Jo-FinCERT",
+          time: "اليوم",
+          body:
+            "أي رسالة تطلب منك تحديث بياناتك البنكية عبر رابط قصير تعتبر مشبوهة. لا تدخل بياناتك إلا عبر التطبيق الرسمي أو الموقع المعتمد للبنك."
+        },
+        {
+          id: 3,
+          type: "rumor",
+          severity: "medium",
+          title: "نفي إشاعة تعليق العمل بمنصة دعم الخبز",
+          source: "حقّك تعرف",
+          time: "أمس",
+          body:
+            "تم نفي الأخبار المتداولة حول تعليق العمل بمنصة دعم الخبز. لا تعتمد على الرسائل المتداولة في مجموعات واتساب وتأكد من المصادر الرسمية."
+        },
+        {
+          id: 4,
+          type: "gov",
+          severity: "info",
+          title: "قريباً: واجهات تحقق للروابط الحكومية",
+          source: "وزارة الاقتصاد الرقمي والريادة",
+          time: "منذ يومين",
+          body:
+            "سيتم قريباً إطلاق واجهات برمجية للتحقق من الروابط الحكومية لتمكين التطبيقات من التأكد من أن الرابط يعود فعلاً إلى جهة حكومية."
+        }
+      ],
+    };
+
+    // =========================
+    // Navigation
+    // =========================
+    document.querySelectorAll("[data-tab-target]").forEach((navLink) => {
+      navLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const target = navLink.getAttribute("data-tab-target");
+        switchTab(target);
+      });
+    });
+
+    document.querySelectorAll("[data-open-tab]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tab = btn.getAttribute("data-open-tab");
+        switchTab(tab);
+      });
+    });
+
+    document.querySelectorAll("[data-open-scan]").forEach((card) => {
+      card.addEventListener("click", () => {
+        const tool = card.getAttribute("data-open-scan");
+        switchTab("scan");
+        setScanTool(tool);
+      });
+    });
+
+    function switchTab(tabName) {
+      state.currentTab = tabName;
+
+      document.querySelectorAll(".tab-section").forEach((section) => {
+        section.classList.add("d-none");
+      });
+      const activeSection = document.getElementById("tab-" + tabName);
+      if (activeSection) activeSection.classList.remove("d-none");
+
+      document.querySelectorAll(".bottom-nav .nav-link").forEach((link) => {
+        link.classList.remove("active");
+        if (link.getAttribute("data-tab-target") === tabName) {
+          link.classList.add("active");
+        }
+      });
+
+      // Render relevant tab content
+      if (tabName === "scan") renderScanTool(state.currentScanTool);
+      if (tabName === "alerts") renderAlerts(getActiveAlertFilter());
+    }
+
+    // =========================
+    // Language Toggle (UI-only)
+    // =========================
+    const langBtn = document.getElementById("langToggleBtn");
+    const langLabel = document.getElementById("langToggleLabel");
+    if (langBtn && langLabel) {
+      langBtn.addEventListener("click", () => {
+        if (state.language === "ar") {
+          state.language = "en";
+          langLabel.textContent = "EN";
+          // UI-only placeholder: we keep Arabic content in this mock.
+        } else {
+          state.language = "ar";
+          langLabel.textContent = "عربي";
+        }
+      });
+    }
+
+    // =========================
+    // Awareness (local rotation)
+    // =========================
+    function renderAwarenessTip() {
+      const el = document.getElementById("awarenessText");
+      if (!el) return;
+
+      // Deterministic daily rotation (day-of-year)
+      const now = new Date();
+      const start = new Date(now.getFullYear(), 0, 0);
+      const diff = now - start;
+      const oneDay = 1000 * 60 * 60 * 24;
+      const dayOfYear = Math.floor(diff / oneDay);
+      const tip = state.awarenessTips[dayOfYear % state.awarenessTips.length];
+
+      el.textContent = tip.text;
+    }
+
+    const awarenessMoreBtn = document.getElementById("awarenessMoreBtn");
+    if (awarenessMoreBtn) {
+      awarenessMoreBtn.addEventListener("click", () => {
+        alert("صفحة التوعية التفصيلية (قريباً): في Flutter سنبني شاشة توعية بمحتوى مبسّط.");
+      });
+    }
+
+    // =========================
+    // Scan selector + Workspace
+    // =========================
+    const scanSelector = document.getElementById("scanSelector");
+    if (scanSelector) {
+      scanSelector.querySelectorAll(".seg-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const tool = btn.getAttribute("data-scan");
+          setScanTool(tool);
+        });
+      });
+    }
+
+    function setScanTool(tool) {
+      state.currentScanTool = tool;
+      // update active selector
+      if (scanSelector) {
+        scanSelector.querySelectorAll(".seg-btn").forEach((b) => b.classList.remove("active"));
+        const active = scanSelector.querySelector(`[data-scan="${tool}"]`);
+        if (active) active.classList.add("active");
+      }
+      renderScanTool(tool);
+    }
+
+    function renderScanTool(tool) {
+      const container = document.getElementById("scan-workspace");
+      if (!container) return;
+
+      let html = "";
+
+      if (tool === "sms") {
+        html = `
+          <div class="card-surface pad-md">
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div>
+                <div class="fw-bold">فحص رسالة / نص (Explainable)</div>
+                <div class="helper">
+                  الصق الرسالة وسنعرض لك “لماذا” قد تكون مشبوهة + أجزاء الرسالة التي تستدعي الحذر.
+                </div>
+              </div>
+              <span class="pill pill-info"><i class="bi bi-shield-lock"></i> محلي</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <form id="smsScanForm">
+              <div class="mb-2">
+                <label class="form-label">نص الرسالة</label>
+                <textarea class="form-control" id="smsText" required
+                  placeholder="مثال: عزيزي العميل، شحنتك معلّقة، يرجى دفع 1 دينار عبر الرابط..."></textarea>
+                <div class="helper">نصيحة: لا تضع معلومات حساسة. هذا نموذج تجريبي.</div>
+              </div>
+
+              <button type="submit" class="btn btn-primaryish w-100">
+                فحص الرسالة
+                <i class="bi bi-search ms-1"></i>
+              </button>
+            </form>
+
+            <div id="smsScanResult"></div>
+          </div>
+        `;
+      } else if (tool === "link") {
+        html = `
+          <div class="card-surface pad-md">
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div>
+                <div class="fw-bold">فحص رابط</div>
+                <div class="helper">تحقق من أن الرابط ليس صفحة تصيّد تنتحل جهة رسمية.</div>
+              </div>
+              <span class="pill pill-info"><i class="bi bi-globe"></i> رابط</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <form id="linkScanForm">
+              <div class="mb-2">
+                <label class="form-label">الرابط</label>
+                <input type="url" class="form-control" id="linkUrl" required
+                  placeholder="https://example.com/verify" />
+                <div class="helper">يفضل كتابة الموقع الرسمي يدوياً بدل الضغط على روابط قصيرة.</div>
+              </div>
+
+              <button type="submit" class="btn btn-primaryish w-100">
+                فحص الرابط
+                <i class="bi bi-search ms-1"></i>
+              </button>
+            </form>
+
+            <div id="linkScanResult"></div>
+          </div>
+        `;
+      } else if (tool === "cliq") {
+        html = `
+          <div class="card-surface pad-md">
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div>
+                <div class="fw-bold">فحص CliQ / رقم هاتف</div>
+                <div class="helper">قبل التحويل، تحقق من الحساب لتقليل مخاطر الاحتيال.</div>
+              </div>
+              <span class="pill pill-warn"><i class="bi bi-credit-card"></i> قبل التحويل</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <form id="cliqScanForm">
+              <div class="mb-2">
+                <label class="form-label">رقم الهاتف</label>
+                <input type="tel" class="form-control" id="cliqPhone" placeholder="07X XXX XXXX" />
+              </div>
+              <div class="mb-2">
+                <label class="form-label">عنوان CliQ (اختياري)</label>
+                <input type="text" class="form-control" id="cliqAlias" placeholder="@example" />
+              </div>
+
+              <button type="submit" class="btn btn-primaryish w-100">
+                فحص الحساب
+                <i class="bi bi-search ms-1"></i>
+              </button>
+            </form>
+
+            <div id="cliqScanResult"></div>
+          </div>
+        `;
+      } else if (tool === "news") {
+        html = `
+          <div class="card-surface pad-md">
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div>
+                <div class="fw-bold">فحص خبر / شائعة</div>
+                <div class="helper">تحقق قبل المشاركة. (في الإنتاج: تكامل مع منصات التحقق الرسمية).</div>
+              </div>
+              <span class="pill pill-safe"><i class="bi bi-check2-circle"></i> تحقق</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <ul class="nav nav-pills nav-fill mb-2" id="rumorTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active py-2" id="tab-news-link" data-bs-toggle="pill"
+                  data-bs-target="#pane-news-link" type="button" role="tab">
+                  رابط
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link py-2" id="tab-news-text" data-bs-toggle="pill"
+                  data-bs-target="#pane-news-text" type="button" role="tab">
+                  نص
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link py-2" id="tab-news-image" data-bs-toggle="pill"
+                  data-bs-target="#pane-news-image" type="button" role="tab">
+                  صورة
+                </button>
+              </li>
+            </ul>
+
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="pane-news-link" role="tabpanel">
+                <form id="newsLinkForm">
+                  <div class="mb-2">
+                    <label class="form-label">رابط الخبر</label>
+                    <input type="url" class="form-control" id="newsUrl" required placeholder="https://example.com/news/123" />
+                  </div>
+                  <button type="submit" class="btn btn-primaryish w-100">
+                    فحص الرابط
+                    <i class="bi bi-check2-circle ms-1"></i>
+                  </button>
+                </form>
+              </div>
+
+              <div class="tab-pane fade" id="pane-news-text" role="tabpanel">
+                <form id="newsTextForm">
+                  <div class="mb-2">
+                    <label class="form-label">نص الخبر / الرسالة</label>
+                    <textarea class="form-control" id="newsText" required placeholder="الصق نص الخبر أو الشائعة هنا..."></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primaryish w-100">
+                    فحص النص
+                    <i class="bi bi-check2-circle ms-1"></i>
+                  </button>
+                </form>
+              </div>
+
+              <div class="tab-pane fade" id="pane-news-image" role="tabpanel">
+                <form id="newsImageForm">
+                  <div class="mb-2">
+                    <label class="form-label">صورة / لقطة شاشة</label>
+                    <input type="file" class="form-control" accept="image/*" required />
+                    <div class="helper">في النموذج: عرض نتيجة توضيحية فقط.</div>
+                  </div>
+                  <button type="submit" class="btn btn-primaryish w-100">
+                    محاولة التحقق
+                    <i class="bi bi-check2-circle ms-1"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <div id="newsScanResult"></div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+      attachScanHandlers(tool);
+    }
+
+    // =========================
+    // Explainable "Signals Engine" (demo)
+    // =========================
+    function analyzeSmsExplainable(text) {
+      const original = text || "";
+      const lower = original.toLowerCase();
+
+      // Signals: type, label, explanation, keywords (for highlights)
+      const signals = [];
+
+      // Helper to add a signal if any keyword matches
+      function addSignal(type, label, explanation, keywords, severityHint) {
+        const matched = (keywords || []).filter(k => lower.includes(k.toLowerCase()));
+        if (matched.length) {
+          signals.push({
+            type,
+            label,
+            explanation,
+            matches: matched,
+            severityHint: severityHint || "warn"
+          });
+        }
+      }
+
+      addSignal(
+        "urgency",
+        "استعجال/ضغط",
+        "الرسالة تستخدم لغة استعجال (مثل: فوراً/حالاً) وهذا شائع في التصيّد لإجبارك على التصرف بسرعة.",
+        ["فوراً", "حالاً", "عاجل", "immediately", "urgent", "الان", "الآن", "آخر فرصة"],
+        "warn"
+      );
+
+      addSignal(
+        "payment",
+        "طلب دفع/رسوم",
+        "طلب دفع رسوم صغيرة أو تحويل مبلغ (حتى لو بسيط) من أشهر أساليب الاحتيال.",
+        ["رسوم", "دفع", "ادفع", "fee", "pay", "دينار", "jod", "jd", "تحويل"],
+        "danger"
+      );
+
+      addSignal(
+        "otp",
+        "طلب بيانات/OTP",
+        "أي طلب لرمز تحقق (OTP) أو كلمة مرور أو بيانات بطاقة هو مؤشر قوي على التصيّد.",
+        ["otp", "رمز", "كود", "password", "كلمة المرور", "بيانات البطاقة", "cvv", "pin"],
+        "danger"
+      );
+
+      addSignal(
+        "impersonation",
+        "انتحال جهة",
+        "ذكر جهة رسمية أو بنك بشكل عام قد يُستخدم للانتحال. تحقق دائماً من المصدر الرسمي.",
+        ["البريد", "jordan post", "البنك", "وزارة", "حكومة", "الجمارك", "customs", "الشحن", "شحنتك"],
+        "warn"
+      );
+
+      // Detect URL presence
+      const urlRegex = /(https?:\/\/[^\s]+)|(\bwww\.[^\s]+)|(\b[^\s]+\.(com|net|org|xyz|top|live|store)\b)/gi;
+      const urls = original.match(urlRegex) || [];
+      if (urls.length) {
+        signals.push({
+          type: "link",
+          label: "رابط داخل الرسالة",
+          explanation: "وجود رابط داخل الرسالة يزيد الخطر، خصوصاً إذا كان رابطاً مختصراً أو غير تابع لجهة رسمية.",
+          matches: urls.slice(0, 3),
+          severityHint: "warn"
+        });
+      }
+
+      // Determine risk level
+      let dangerScore = 0;
+      let warnScore = 0;
+
+      signals.forEach(s => {
+        if (s.severityHint === "danger") dangerScore += 2;
+        else warnScore += 1;
+      });
+
+      // Some strong combos
+      const hasPayment = signals.some(s => s.type === "payment");
+      const hasLink = signals.some(s => s.type === "link");
+      const hasOtp = signals.some(s => s.type === "otp");
+      const hasUrgency = signals.some(s => s.type === "urgency");
+
+      let level = "safe";
+      let confidence = "Low";
+      let summary = "لا تظهر مؤشرات تصيّد واضحة بناءً على الفحص التجريبي.";
+
+      if (hasOtp || (hasPayment && hasLink) || (hasUrgency && hasLink && hasPayment)) {
+        level = "danger";
+        confidence = "High";
+        summary = "توجد مؤشرات قوية على التصيّد/الاحتيال (طلب دفع/بيانات + رابط أو استعجال).";
+      } else if (dangerScore >= 2 || warnScore >= 2 || hasLink || hasPayment) {
+        level = "warning";
+        confidence = (warnScore >= 3 || dangerScore >= 1) ? "Medium" : "Low";
+        summary = "الرسالة تحتوي على مؤشرات مشبوهة — يُنصح بالتحقق قبل أي تفاعل.";
+      }
+
+      // Build highlight tokens (simple keyword-based)
+      const highlights = [];
+      signals.forEach(s => {
+        (s.matches || []).forEach(m => {
+          highlights.push({ text: m, kind: s.severityHint === "danger" ? "danger" : "warn" });
+        });
+      });
+
+      // Actions based on level
+      let actions = [
+        "لا تضغط على أي رابط داخل الرسالة.",
+        "تحقق من الجهة عبر التطبيق الرسمي أو الموقع الرسمي فقط.",
+      ];
+      if (level === "danger") {
+        actions = [
+          "لا تضغط على أي رابط ولا تُدخل أي بيانات.",
+          "لا تشارك OTP أو بيانات الدفع نهائياً.",
+          "استخدم زر البلاغ لإرسال بلاغ منظم (تجريبي).",
+        ];
+      } else if (level === "warning") {
+        actions = [
+          "توقف ولا تتفاعل فوراً.",
+          "تحقق من المصدر الرسمي عبر قناة موثوقة.",
+          "إذا كان الرابط غريباً أو مختصراً: اعتبره خطرًا حتى يثبت العكس.",
+        ];
+      } else {
+        actions = [
+          "ابقَ حذراً ولا تشارك معلومات حساسة.",
+          "إذا طُلب منك دفع/OTP لاحقاً: أعد الفحص.",
+        ];
+      }
+
+      return { level, confidence, summary, signals, highlights, original, actions };
+    }
+
+    function highlightText(original, highlights) {
+      if (!highlights || !highlights.length) return escapeHtml(original);
+
+      // Deduplicate by text (keep max 1 kind per text)
+      const map = new Map();
+      for (const h of highlights) {
+        const key = (h.text || "").trim();
+        if (!key) continue;
+        if (!map.has(key)) map.set(key, h.kind);
+        else {
+          // Upgrade warn -> danger if needed
+          if (map.get(key) === "warn" && h.kind === "danger") map.set(key, "danger");
+        }
+      }
+
+      // Replace tokens safely (simple approach, not perfect NLP)
+      // Sort by length desc to avoid partial replacements.
+      const tokens = Array.from(map.keys()).sort((a,b) => b.length - a.length);
+
+      let safe = escapeHtml(original);
+
+      tokens.forEach(t => {
+        const kind = map.get(t);
+        const cls = kind === "danger" ? "hl hl-danger" : "hl hl-warn";
+
+        // Escape token too, because safe is escaped.
+        const escapedToken = escapeHtml(t);
+
+        // Replace all occurrences (case-insensitive is hard after escaping; we do exact escaped token match)
+        // This works well for URLs and Arabic tokens copied as-is.
+        safe = safe.split(escapedToken).join(`<span class="${cls}">${escapedToken}</span>`);
+      });
+
+      return safe;
+    }
+
+    function escapeHtml(str) {
+      return (str || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    // =========================
+    // Render Result UI (XAI)
+    // =========================
+    function renderExplainableResult(result) {
+      const level = result.level; // safe | warning | danger
+      const cls = level === "danger" ? "danger" : (level === "warning" ? "warn" : "safe");
+      const label = level === "danger" ? "خطير" : (level === "warning" ? "تحذير" : "آمن");
+      const icon = level === "danger" ? "bi-shield-exclamation" : (level === "warning" ? "bi-exclamation-triangle" : "bi-check-circle");
+
+      const riskBadge = `<span class="risk-badge ${cls}">
+        <i class="bi ${icon}"></i>
+        ${label}
+      </span>`;
+
+      const signals = (result.signals || []);
+      const chips = signals.length
+        ? signals.map((s, idx) => `
+            <span class="reason-chip" data-reason-idx="${idx}">
+              <i class="bi bi-info-circle"></i>
+              ${escapeHtml(s.label)}
+            </span>
+          `).join("")
+        : `<span class="helper">لا توجد أسباب واضحة في هذا المثال.</span>`;
+
+      const actionsHtml = (result.actions || [])
+        .map(a => `<li>${escapeHtml(a)}</li>`)
+        .join("");
+
+      const highlighted = highlightText(result.original, result.highlights);
+
+      return `
+        <div class="mt-3">
+          <div class="result-hero ${cls}">
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div>
+                ${riskBadge}
+                <div class="mt-2 fw-bold" style="font-size: .92rem;">
+                  ${escapeHtml(result.summary)}
+                </div>
+                <div class="confidence">Confidence: <b>${escapeHtml(result.confidence)}</b> (تجريبي)</div>
+              </div>
+              <span class="pill pill-info"><i class="bi bi-eye"></i> Explainable</span>
+            </div>
+
+            <div class="reason-chips">
+              ${chips}
+            </div>
+
+            <div class="message-preview" id="messagePreview">
+              ${highlighted}
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="fw-bold mb-1">ماذا أفعل الآن؟</div>
+            <ul class="mb-2" style="font-size:.84rem; color: rgba(229,231,235,.88);">
+              ${actionsHtml}
+            </ul>
+
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-soft w-50" type="button" id="copyMsgBtn">
+                نسخ الرسالة
+                <i class="bi bi-clipboard ms-1"></i>
+              </button>
+              <button class="btn btn-primaryish w-50" type="button" id="reportFromScanBtn">
+                بلّغ الآن
+                <i class="bi bi-flag ms-1"></i>
+              </button>
+            </div>
+
+            <div class="helper mt-2">
+              * هذا النموذج يعرض “الأسباب” بطريقة مفهومة. لاحقاً يمكن استبدال المنطق بذكاء اصطناعي/قواعد رسمية دون تغيير الواجهة.
+            </div>
+          </div>
+
+          <div class="mt-2 d-none" id="reasonDetailBox">
+            <div class="card-soft pad-md">
+              <div class="fw-bold mb-1" id="reasonTitle"></div>
+              <div class="helper" id="reasonBody"></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================
+    // Attach Scan Handlers
+    // =========================
+    function attachScanHandlers(tool) {
+      if (tool === "sms") {
+        const form = document.getElementById("smsScanForm");
+        const out = document.getElementById("smsScanResult");
+        const textarea = document.getElementById("smsText");
+        if (!form || !out || !textarea) return;
+
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          const text = textarea.value.trim();
+          const result = analyzeSmsExplainable(text);
+          out.innerHTML = renderExplainableResult(result);
+
+          // Wire chip clicks for explanations
+          const reasonDetailBox = document.getElementById("reasonDetailBox");
+          const reasonTitle = document.getElementById("reasonTitle");
+          const reasonBody = document.getElementById("reasonBody");
+
+          document.querySelectorAll(".reason-chip").forEach((chip) => {
+            chip.addEventListener("click", () => {
+              const idx = parseInt(chip.getAttribute("data-reason-idx"), 10);
+              const sig = result.signals[idx];
+              if (!sig) return;
+
+              reasonTitle.textContent = sig.label;
+              reasonBody.textContent = sig.explanation + (sig.matches?.length ? ` (أمثلة: ${sig.matches.slice(0,3).join("، ")})` : "");
+              reasonDetailBox.classList.remove("d-none");
+              reasonDetailBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            });
+          });
+
+          // Copy message
+          const copyBtn = document.getElementById("copyMsgBtn");
+          if (copyBtn) {
+            copyBtn.addEventListener("click", async () => {
+              try {
+                await navigator.clipboard.writeText(text);
+                copyBtn.innerHTML = `تم النسخ <i class="bi bi-check ms-1"></i>`;
+                setTimeout(() => {
+                  copyBtn.innerHTML = `نسخ الرسالة <i class="bi bi-clipboard ms-1"></i>`;
+                }, 1500);
+              } catch {
+                alert("تعذر النسخ في هذا المتصفح. يمكنك النسخ يدوياً.");
+              }
+            });
+          }
+
+          // Report from scan (prefill)
+          const reportBtn = document.getElementById("reportFromScanBtn");
+          if (reportBtn) {
+            reportBtn.addEventListener("click", () => {
+              // Navigate to report, select phishing, go step2, prefill desc
+              switchTab("report");
+              selectReportType("phishing");
+              goReportStep(2);
+              const desc = document.getElementById("reportDesc");
+              if (desc) {
+                desc.value = `بلاغ (من فحص الرسالة):\n\n${text}\n\nنتيجة الفحص: ${result.level.toUpperCase()} (Confidence: ${result.confidence})\nالأسباب: ${result.signals.map(s=>s.label).join(", ")}`;
+              }
+            });
+          }
+        });
+      }
+
+      if (tool === "link") {
+        const form = document.getElementById("linkScanForm");
+        const out = document.getElementById("linkScanResult");
+        const input = document.getElementById("linkUrl");
+        if (!form || !out || !input) return;
+
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const url = input.value.trim().toLowerCase();
+          const result = evaluateLink(url);
+          out.innerHTML = renderSimpleResult(result);
+        });
+      }
+
+      if (tool === "cliq") {
+        const form = document.getElementById("cliqScanForm");
+        const out = document.getElementById("cliqScanResult");
+        const phone = document.getElementById("cliqPhone");
+        const alias = document.getElementById("cliqAlias");
+        if (!form || !out) return;
+
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const result = evaluateCliq(phone?.value || "", alias?.value || "");
+          out.innerHTML = renderSimpleResult(result);
+        });
+      }
+
+      if (tool === "news") {
+        const out = document.getElementById("newsScanResult");
+        const linkForm = document.getElementById("newsLinkForm");
+        const textForm = document.getElementById("newsTextForm");
+        const imgForm  = document.getElementById("newsImageForm");
+
+        if (linkForm) {
+          linkForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const url = document.getElementById("newsUrl")?.value || "";
+            const result = evaluateNews("link", url);
+            out.innerHTML = renderSimpleResult(result, true);
+          });
+        }
+        if (textForm) {
+          textForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const text = document.getElementById("newsText")?.value || "";
+            const result = evaluateNews("text", text);
+            out.innerHTML = renderSimpleResult(result, true);
+          });
+        }
+        if (imgForm) {
+          imgForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const result = evaluateNews("image", "image");
+            out.innerHTML = renderSimpleResult(result, true);
+          });
+        }
+      }
+    }
+
+    // =========================
+    // Simple results for link/cliq/news (kept concise)
+    // =========================
+    function renderSimpleResult(result, isNews=false) {
+      const level = result.level; // safe|warning|danger|unknown
+      const cls = level === "danger" ? "danger" : (level === "warning" ? "warn" : (level === "safe" ? "safe" : "safe"));
+      const label = level === "danger" ? "خطير" : (level === "warning" ? "تحذير" : (level === "safe" ? "آمن" : "غير مؤكد"));
+      const icon = level === "danger" ? "bi-shield-exclamation" : (level === "warning" ? "bi-exclamation-triangle" : (level === "safe" ? "bi-check-circle" : "bi-question-circle"));
+
+      const reasonsHtml = (result.reasons || []).map(r => `<li>${escapeHtml(r)}</li>`).join("");
+      const actionsHtml = (result.actions || []).map(a => `<li>${escapeHtml(a)}</li>`).join("");
+
+      const hint = isNews
+        ? `<div class="helper mt-2">* يفترض هذا المثال تكاملاً مستقبلياً مع منصات تحقق رسمية.</div>`
+        : "";
+
+      return `
+        <div class="mt-3">
+          <div class="result-hero ${cls}">
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div>
+                <span class="risk-badge ${cls}">
+                  <i class="bi ${icon}"></i>
+                  ${label}
+                </span>
+                <div class="mt-2 fw-bold" style="font-size:.92rem;">
+                  ${escapeHtml(result.title)}
+                </div>
+              </div>
+              <span class="pill pill-info"><i class="bi bi-list-check"></i> نتيجة</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="fw-bold mb-1">لماذا؟</div>
+            <ul class="mb-2" style="font-size:.84rem; color: rgba(229,231,235,.88);">
+              ${reasonsHtml}
+            </ul>
+
+            <div class="fw-bold mb-1">ماذا أفعل الآن؟</div>
+            <ul class="mb-2" style="font-size:.84rem; color: rgba(229,231,235,.88);">
+              ${actionsHtml}
+            </ul>
+
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-soft w-50" type="button" onclick="switchTab('home')">
+                رجوع للرئيسية
+              </button>
+              <button class="btn btn-primaryish w-50" type="button" onclick="switchTab('report')">
+                بلّغ
+              </button>
+            </div>
+
+            ${hint}
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================
+    // Evaluators (demo placeholders)
+    // =========================
+    function evaluateLink(url) {
+      let level = "safe";
+      let title = "الرابط يبدو سليماً وفق الفحص الأولي";
+      let reasons = ["لم نرصد أنماطاً شائعة للتصيّد في هذا المثال."];
+      let actions = ["تحقق من النطاق ووجود https قبل إدخال أي بيانات."];
+
+      const phishingPatterns = ["post", "jordan-post", "track", "click", "pay", "secure", "verify"];
+      const fakeTlds = [".top", ".xyz", ".store", ".live"];
+      const suspicious =
+        phishingPatterns.some((p) => url.includes(p)) ||
+        fakeTlds.some((t) => url.endsWith(t));
+
+      if (suspicious) {
+        level = "warning";
+        title = "الرابط مشبوه — قد يكون صفحة تصيّد";
+        reasons = [
+          "يتضمن كلمات شائعة في صفحات الدفع/التحقق المزيفة (pay, verify, track...).",
+          "النطاق لا يبدو كنطاق رسمي معروف."
+        ];
+        actions = [
+          "لا تدخل أي بيانات قبل التأكد من الجهة الرسمية.",
+          "اكتب عنوان الموقع الرسمي يدوياً بدل الضغط على الرابط."
+        ];
+      }
+
+      if (url.includes("jo-post") || url.includes("ordanpost")) {
+        level = "danger";
+        title = "رابط خطير — يشبه حملات التصيّد التي تنتحل البريد الأردني";
+        reasons = [
+          "تركيبة الرابط تشبه روابط حملات انتحال البريد.",
+          "قد يطلب دفع مبلغ بسيط ثم سرقة بيانات الدفع."
+        ];
+        actions = [
+          "لا تدخل بيانات دفع على هذا الرابط.",
+          "استخدم القنوات الرسمية فقط.",
+          "قدّم بلاغاً إذا وصلتك الرسالة."
+        ];
+      }
+
+      return { level, title, reasons, actions, type: "link" };
+    }
+
+    function evaluateCliq(phone, alias) {
+      let level = "safe";
+      let title = "لا يوجد سجل احتيالي معروف لهذا الحساب (تجريبي)";
+      let reasons = ["لا توجد بلاغات معروفة في قاعدة البيانات التجريبية."];
+      let actions = [
+        "تحقق من هوية المستلم قبل التحويل.",
+        "تجنب دفع مبلغ كبير لشخص لأول مرة."
+      ];
+
+      if ((phone && phone.endsWith("999")) || (alias && alias.toLowerCase().includes("deal"))) {
+        level = "danger";
+        title = "حساب عالي الخطورة — مرتبط بأنماط احتيال (تجريبي)";
+        reasons = [
+          "تم رصد بلاغات سابقة تشير لاحتمال عدم استلام الخدمة/المنتج.",
+          "نمط العنوان/الرقم يشبه حسابات تم الإبلاغ عنها."
+        ];
+        actions = [
+          "لا تقم بالتحويل لهذا الحساب.",
+          "اطلب وسيلة دفع أكثر أماناً أو تعامل مع جهة موثوقة.",
+          "استخدم تبويب البلاغ لإرسال بلاغ رسمي."
+        ];
+      } else if ((phone && phone.endsWith("11")) || (alias && alias.toLowerCase().includes("shop"))) {
+        level = "warning";
+        title = "الحساب يحتاج لمزيد من الحذر قبل التحويل";
+        reasons = [
+          "لا توجد بلاغات مثبتة، لكن هناك نمط يستدعي الانتباه.",
+          "تحقق من الهوية عبر مكالمة أو دليل إضافي."
+        ];
+        actions = [
+          "لا تدفع كامل المبلغ قبل الاستلام.",
+          "احتفظ بمحادثات/إيصالات تثبت الاتفاق."
+        ];
+      }
+
+      return { level, title, reasons, actions, type: "cliq" };
+    }
+
+    function evaluateNews(kind, value) {
+      let level = "unknown";
+      let title = "لم يتم العثور على تحقق مباشر — يُنصح بالتريث";
+      let reasons = [
+        "بعض الأخبار تحتاج وقتاً حتى يتم التحقق منها.",
+        "تحقق من وجود مصدر رسمي أو بيان واضح."
+      ];
+      let actions = [
+        "لا تعيد نشر الخبر قبل التأكد.",
+        "تابع منصات التحقق الرسمية للحصول على توضيح."
+      ];
+
+      if ((kind === "link") && (value.includes("haggak") || value.includes("akeed"))) {
+        level = "safe";
+        title = "الرابط يبدو من منصة تحقق موثوقة";
+        reasons = [
+          "الرابط يعود لمنصة تحقق أو مصدر صحفي معتمد.",
+          "عادةً يتم فحص الأخبار وفق معايير مهنية."
+        ];
+        actions = [
+          "اقرأ تفاصيل التحقق قبل مشاركة الخبر.",
+          "شارك الرابط مع الإشارة للمصدر."
+        ];
+      } else if (kind === "text") {
+        const lower = (value || "").toLowerCase();
+        if (lower.includes("تم ايقاف") && lower.includes("دعم") && lower.includes("الخبز")) {
+          level = "danger";
+          title = "إشاعة شائعة — تم نفيها في أمثلة سابقة";
+          reasons = [
+            "النص يشبه إشاعات سابقة حول وقف دعم تم نفيها.",
+            "لا يذكر مصدر رسمي أو تاريخ واضح."
+          ];
+          actions = [
+            "لا تعيد نشر هذه الرسالة.",
+            "ابحث عن التوضيح الرسمي وشاركه بدل الإشاعة."
+          ];
+        } else {
+          level = "warning";
+          title = "النص قد يحتاج تحقق — لا توجد علامات مصدر رسمي";
+          reasons = [
+            "غياب مصدر رسمي أو رابط موثوق.",
+            "صياغة عامة قد تُستخدم للتضليل."
+          ];
+          actions = [
+            "ابحث عن الخبر في مواقع رسمية أو منصات تحقق.",
+            "لا تشارك قبل التأكد."
+          ];
+        }
+      } else if (kind === "image") {
+        level = "warning";
+        title = "لا يمكن التأكد تلقائياً من الصورة — قد تكون قديمة أو خارج سياقها";
+        reasons = [
+          "كثيراً ما تُعاد مشاركة صور قديمة مع نص جديد مضلل.",
+          "تحتاج للتحقق من المصدر الأصلي وتاريخ النشر."
+        ];
+        actions = [
+          "تحقق من المصدر الأصلي للصورة.",
+          "ابحث عن سياق الصورة قبل المشاركة."
+        ];
+      }
+
+      return { level, title, reasons, actions, type: "news" };
+    }
+
+    // =========================
+    // Alerts
+    // =========================
+    function getActiveAlertFilter() {
+      const active = document.querySelector("[data-alert-filter].active");
+      return active ? active.getAttribute("data-alert-filter") : "all";
+    }
+
+    function renderAlerts(filter="all") {
+      const container = document.getElementById("alertsList");
+      if (!container) return;
+
+      let alerts = state.alerts.slice();
+      if (filter !== "all") alerts = alerts.filter(a => a.type === filter);
+
+      if (!alerts.length) {
+        container.innerHTML = `<div class="helper mt-3">لا توجد تنبيهات مطابقة حالياً.</div>`;
+        return;
+      }
+
+      container.innerHTML = alerts.map(a => {
+        const sevClass = a.severity === "high" ? "pill-danger" : (a.severity === "medium" ? "pill-warn" : "pill-info");
+        const sevStrip = a.severity === "high" ? "sev-high" : (a.severity === "medium" ? "sev-med" : "sev-info");
+        const sevLabel = a.severity === "high" ? "عالي" : (a.severity === "medium" ? "متوسط" : "معلوماتي");
+
+        return `
+          <div class="alert-item" data-alert-id="${a.id}">
+            <div class="d-flex align-items-stretch">
+              <div class="severity-strip ${sevStrip}"></div>
+              <div class="flex-grow-1">
+                <div class="alert-head">
+                  <span class="pill ${sevClass}"><i class="bi bi-exclamation-circle"></i> ${sevLabel}</span>
+                  <span class="pill pill-info"><i class="bi bi-clock"></i> ${escapeHtml(a.time)}</span>
+                </div>
+                <div class="alert-title">${escapeHtml(a.title)}</div>
+                <div class="alert-meta">المصدر: ${escapeHtml(a.source)}</div>
+
+                <div class="alert-body" id="alertBody-${a.id}">
+                  ${escapeHtml(a.body)}
+                </div>
+
+                <div class="alert-actions">
+                  <button class="btn btn-outline-soft w-50" type="button" data-alert-toggle="${a.id}">
+                    التفاصيل
+                    <i class="bi bi-chevron-down ms-1"></i>
+                  </button>
+                  <button class="btn btn-primaryish w-50" type="button" data-open-scan="sms">
+                    فحص رسالة مشابهة
+                    <i class="bi bi-search ms-1"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      // Wire toggles + quick scan buttons
+      container.querySelectorAll("[data-alert-toggle]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-alert-toggle");
+          const body = document.getElementById("alertBody-" + id);
+          if (!body) return;
+          const isOpen = body.style.display === "block";
+          body.style.display = isOpen ? "none" : "block";
+          btn.innerHTML = isOpen
+            ? `التفاصيل <i class="bi bi-chevron-down ms-1"></i>`
+            : `إخفاء <i class="bi bi-chevron-up ms-1"></i>`;
+        });
+      });
+
+      container.querySelectorAll("[data-open-scan]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          switchTab("scan");
+          setScanTool("sms");
+        });
+      });
+    }
+
+    document.querySelectorAll("[data-alert-filter]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-alert-filter]").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderAlerts(btn.getAttribute("data-alert-filter"));
+      });
+    });
+
+    // =========================
+    // Report flow (2-step)
+    // =========================
+    const reportNextBtn = document.getElementById("reportNextBtn");
+    const reportBackBtn = document.getElementById("reportBackBtn");
+
+    function selectReportType(type) {
+      state.selectedReportType = type;
+      document.querySelectorAll("[data-report-type]").forEach(c => c.classList.remove("active"));
+      const chosen = document.querySelector(`[data-report-type="${type}"]`);
+      if (chosen) chosen.classList.add("active");
+
+      if (reportNextBtn) reportNextBtn.disabled = false;
+    }
+
+    document.querySelectorAll("[data-report-type]").forEach(card => {
+      card.addEventListener("click", () => selectReportType(card.getAttribute("data-report-type")));
+    });
+
+    function goReportStep(step) {
+      const step1 = document.getElementById("reportStep1");
+      const step2 = document.getElementById("reportStep2");
+      const pill1 = document.getElementById("stepPill1");
+      const pill2 = document.getElementById("stepPill2");
+
+      if (step === 1) {
+        step1.classList.remove("d-none");
+        step2.classList.add("d-none");
+        pill1.classList.add("active");
+        pill2.classList.remove("active");
+      } else {
+        step1.classList.add("d-none");
+        step2.classList.remove("d-none");
+        pill1.classList.remove("active");
+        pill2.classList.add("active");
+      }
+    }
+
+    if (reportNextBtn) {
+      reportNextBtn.addEventListener("click", () => {
+        if (!state.selectedReportType) return;
+        goReportStep(2);
+      });
+    }
+    if (reportBackBtn) {
+      reportBackBtn.addEventListener("click", () => goReportStep(1));
+    }
+
+    // Loss toggle
+    const lossYes = document.getElementById("lossYes");
+    const lossNo  = document.getElementById("lossNo");
+    const lossDetails = document.getElementById("lossDetails");
+    if (lossYes && lossNo && lossDetails) {
+      lossYes.addEventListener("change", () => { if (lossYes.checked) lossDetails.classList.remove("d-none"); });
+      lossNo.addEventListener("change", () => { if (lossNo.checked) lossDetails.classList.add("d-none"); });
+    }
+
+    // Report submission (demo)
+    const reportForm = document.getElementById("reportForm");
+    if (reportForm) {
+      reportForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const status = document.getElementById("reportStatus");
+        if (status) status.classList.remove("d-none");
+
+        setTimeout(() => {
+          if (status) status.classList.add("d-none");
+        }, 4500);
+
+        reportForm.reset();
+        state.selectedReportType = null;
+        document.querySelectorAll("[data-report-type]").forEach(c => c.classList.remove("active"));
+        if (reportNextBtn) reportNextBtn.disabled = true;
+        if (lossDetails) lossDetails.classList.add("d-none");
+        goReportStep(1);
+      });
+    }
+
+    // =========================
+    // Home: sync latest alert preview from alerts[0]
+    // =========================
+    function syncHomeAlertPreview() {
+      const a = state.alerts[0];
+      if (!a) return;
+
+      const title = document.getElementById("homeAlertTitle");
+      const meta  = document.getElementById("homeAlertMeta");
+      const text  = document.getElementById("homeAlertText");
+
+      if (title) title.textContent = a.title;
+      if (meta) meta.textContent = `المصدر: ${a.source} • ${a.time}`;
+      if (text) text.textContent = a.body;
+    }
+
+    // =========================
+    // Initial render
+    // =========================
+    (function init(){
+      renderAwarenessTip();
+      syncHomeAlertPreview();
+      renderAlerts("all");
+      renderScanTool(state.currentScanTool);
+      goReportStep(1);
+    })();
+  </script>
+</body>
+</html>

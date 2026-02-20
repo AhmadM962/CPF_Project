@@ -1,0 +1,1542 @@
+```html
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>نـشـامـى شيلد | Nashama Shield</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Bootstrap Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+  />
+
+  <style>
+    body {
+      background: #0f172a;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    .app-shell {
+      max-width: 420px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #020617;
+      color: #e5e7eb;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+    }
+
+    .app-header {
+      background: radial-gradient(circle at top, #0ea5e9, #020617);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+      padding: 0.75rem 1rem 0.5rem;
+    }
+
+    .shield-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #22c55e;
+      box-shadow: 0 0 18px rgba(34, 197, 94, 0.5);
+    }
+
+    .status-pill {
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #bbf7d0;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.7);
+    }
+
+    .app-content {
+      flex: 1;
+      padding: 0.75rem;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .glass-card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 1rem;
+      padding: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.8);
+    }
+
+    .glass-card-soft {
+      background: rgba(15, 23, 42, 0.75);
+      border-radius: 1rem;
+      padding: 0.85rem;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+    }
+
+    .quick-action {
+      border-radius: 1rem;
+      padding: 0.85rem;
+      border: 1px solid rgba(51, 65, 85, 0.8);
+      background: linear-gradient(135deg, #020617, #020617);
+      cursor: pointer;
+      transition: all 0.18s ease-out;
+    }
+
+    .quick-action:hover {
+      border-color: #38bdf8;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .quick-action i {
+      font-size: 1.3rem;
+    }
+
+    .stat-pill {
+      background: rgba(15, 23, 42, 0.85);
+      border-radius: 999px;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.75rem;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      color: #e5e7eb;
+    }
+
+    .bottom-nav {
+      border-top: 1px solid rgba(30, 64, 175, 0.6);
+      background: radial-gradient(circle at top, #020617, #020617);
+    }
+
+    .bottom-nav .nav-link {
+      color: #9ca3af;
+      font-size: 0.8rem;
+      padding-top: 0.35rem;
+      padding-bottom: 0.35rem;
+    }
+
+    .bottom-nav .nav-link i {
+      font-size: 1.2rem;
+    }
+
+    .bottom-nav .nav-link.active {
+      color: #e5e7eb;
+    }
+
+    .badge-soft {
+      border-radius: 999px;
+      padding: 0.2rem 0.55rem;
+      font-size: 0.7rem;
+    }
+
+    .badge-soft-danger {
+      background: rgba(248, 113, 113, 0.1);
+      color: #fecaca;
+      border: 1px solid rgba(248, 113, 113, 0.4);
+    }
+
+    .badge-soft-warning {
+      background: rgba(252, 211, 77, 0.08);
+      color: #fef3c7;
+      border: 1px solid rgba(252, 211, 77, 0.4);
+    }
+
+    .badge-soft-success {
+      background: rgba(52, 211, 153, 0.1);
+      color: #a7f3d0;
+      border: 1px solid rgba(52, 211, 153, 0.4);
+    }
+
+    .badge-soft-muted {
+      background: rgba(148, 163, 184, 0.1);
+      color: #e5e7eb;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .result-card {
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-top: 0.75rem;
+      border: 1px solid transparent;
+    }
+
+    .result-safe {
+      background: linear-gradient(135deg, #064e3b, #022c22);
+      border-color: rgba(74, 222, 128, 0.5);
+      color: #bbf7d0;
+    }
+
+    .result-warning {
+      background: linear-gradient(135deg, #78350f, #451a03);
+      border-color: rgba(253, 224, 71, 0.6);
+      color: #fef3c7;
+    }
+
+    .result-danger {
+      background: linear-gradient(135deg, #7f1d1d, #450a0a);
+      border-color: rgba(248, 113, 113, 0.7);
+      color: #fee2e2;
+    }
+
+    .result-unknown {
+      background: linear-gradient(135deg, #020617, #020617);
+      border-color: rgba(148, 163, 184, 0.6);
+      color: #e5e7eb;
+    }
+
+    textarea.form-control,
+    input.form-control {
+      background-color: rgba(15, 23, 42, 0.85);
+      border-color: rgba(51, 65, 85, 0.9);
+      color: #e5e7eb;
+    }
+
+    textarea.form-control:focus,
+    input.form-control:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.6);
+      background-color: rgba(15, 23, 42, 1);
+      color: #e5e7eb;
+    }
+
+    .form-label {
+      font-size: 0.8rem;
+      color: #cbd5f5;
+    }
+
+    .alert-card {
+      border-radius: 0.85rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(30, 64, 175, 0.8);
+      padding: 0.9rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.7rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 0.9);
+      cursor: pointer;
+    }
+
+    .chip.active {
+      border-color: #38bdf8;
+      background: rgba(15, 23, 42, 1);
+      color: #e0f2fe;
+    }
+
+    .report-type-card {
+      border-radius: 0.9rem;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 0.75rem;
+      cursor: pointer;
+      transition: all 0.15s ease-out;
+    }
+
+    .report-type-card:hover {
+      border-color: #38bdf8;
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .report-type-card.active {
+      border-color: #22c55e;
+      box-shadow: 0 0 18px rgba(34, 197, 94, 0.4);
+    }
+
+    .pill-mini {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+    }
+
+    /* Small scrollbar */
+    .app-content::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .app-content::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.6);
+      border-radius: 999px;
+    }
+
+    @media (max-width: 480px) {
+      .app-shell {
+        box-shadow: none;
+        border-radius: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-2">
+          <div class="shield-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <div>
+            <h6 class="mb-0 text-light fw-semibold">
+              درع النشامى
+              <span class="text-info fw-normal">| Nashama Shield</span>
+            </h6>
+            <small class="text-light-emphasis">
+              حماية مالك، كلمتك، وحياتك الرقمية
+            </small>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-outline-light border-0 px-2" id="langToggleBtn">
+          <i class="bi bi-translate me-1"></i>
+          <span id="langToggleLabel">عربي</span>
+        </button>
+      </div>
+
+      <div class="mt-2 d-flex align-items-center justify-content-between">
+        <span class="status-pill">
+          <span class="status-dot"></span>
+          <span id="statusText">النظام يعمل – أنت محمي</span>
+        </span>
+        <small class="text-light-emphasis">
+          <i class="bi bi-shield-lock me-1"></i>On-Device AI
+        </small>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="app-content">
+
+      <!-- HOME TAB -->
+      <section id="tab-home" class="tab-section">
+        <div class="glass-card mb-3">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <div>
+              <small class="text-light-emphasis">ملخص هذا الأسبوع</small>
+              <h6 class="mt-1 mb-0">نظرة سريعة على نشاط الحماية</h6>
+            </div>
+            <i class="bi bi-activity text-info fs-4"></i>
+          </div>
+          <div class="d-flex gap-2 flex-wrap mt-2">
+            <span class="stat-pill">
+              <i class="bi bi-shield-fill-exclamation ms-1 text-danger"></i>
+              <span id="statBlockedSms">12</span> رسائل احتيالية تم حجبها
+            </span>
+            <span class="stat-pill">
+              <i class="bi bi-credit-card-2-front ms-1 text-warning"></i>
+              <span id="statCliqChecks">5</span> عمليات CliQ تم التحقق منها
+            </span>
+            <span class="stat-pill">
+              <i class="bi bi-newspaper ms-1 text-info"></i>
+              <span id="statRumorChecks">4</span> أخبار وشائعات تم فحصها
+            </span>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <h6 class="mb-2">إجراءات سريعة</h6>
+          <div class="row g-2">
+            <div class="col-6">
+              <div class="quick-action h-100" data-open-scan="sms">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="badge-soft badge-soft-danger">
+                    <i class="bi bi-bug-fill ms-1"></i>رسالة مشبوهة
+                  </span>
+                  <i class="bi bi-chat-square-text"></i>
+                </div>
+                <div>
+                  <div class="fw-semibold mb-1">فحص رسالة</div>
+                  <small class="text-light-emphasis">
+                    الصق محتوى الرسالة لتعرف إذا كانت احتيالاً.
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="quick-action h-100" data-open-scan="cliq">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="badge-soft badge-soft-warning">
+                    <i class="bi bi-exclamation-diamond-fill ms-1"></i>قبل التحويل
+                  </span>
+                  <i class="bi bi-credit-card"></i>
+                </div>
+                <div>
+                  <div class="fw-semibold mb-1">فحص CliQ / رقم</div>
+                  <small class="text-light-emphasis">
+                    تأكد من سلامة الحساب قبل إرسال المال.
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-2 mt-1">
+            <div class="col-6">
+              <div class="quick-action h-100" data-open-scan="link">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="badge-soft badge-soft-muted">
+                    <i class="bi bi-link-45deg ms-1"></i>رابط
+                  </span>
+                  <i class="bi bi-shield-lock"></i>
+                </div>
+                <div>
+                  <div class="fw-semibold mb-1">فحص رابط</div>
+                  <small class="text-light-emphasis">
+                    تحقق من الموقع قبل فتحه أو إدخال بياناتك.
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="quick-action h-100" data-open-scan="news">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="badge-soft badge-soft-success">
+                    <i class="bi bi-check2-circle ms-1"></i>صحة الخبر
+                  </span>
+                  <i class="bi bi-newspaper"></i>
+                </div>
+                <div>
+                  <div class="fw-semibold mb-1">فحص خبر / شائعة</div>
+                  <small class="text-light-emphasis">
+                    تأكد من صحة خبر أو صورة أو رسالة متداولة.
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card-soft mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <span class="text-light-emphasis">
+              <i class="bi bi-broadcast-pin ms-1 text-info"></i>
+              آخر تنبيه
+            </span>
+            <span class="pill-mini text-warning">
+              عالي الخطورة
+            </span>
+          </div>
+          <div class="fw-semibold mb-1" id="homeAlertTitle">
+            رسائل احتيالية تنتحل البريد الأردني تطلب رسوم جمركية
+          </div>
+          <small class="text-light-emphasis d-block mb-2" id="homeAlertText">
+            لا تقم بدفع أي رسوم عبر روابط قصيرة. استخدم التطبيق الرسمي أو الموقع
+            الحكومي فقط.
+          </small>
+          <button class="btn btn-sm btn-outline-info w-100" data-open-tab="alerts">
+            عرض جميع التنبيهات
+          </button>
+        </div>
+
+        <div class="glass-card-soft">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <span class="text-light-emphasis">
+              <i class="bi bi-lightbulb ms-1 text-amber"></i>
+              نصيحة اليوم
+            </span>
+          </div>
+          <small class="text-light-emphasis" id="tipOfDay">
+            لا تشارك رمز التحقق (OTP) مع أي شخص حتى لو ادّعى أنه من البنك أو جهة
+            حكومية.
+          </small>
+        </div>
+      </section>
+
+      <!-- SCAN TAB -->
+      <section id="tab-scan" class="tab-section d-none">
+        <h6 class="mb-2">أدوات الفحص والحماية</h6>
+        <div class="row g-2 mb-3">
+          <div class="col-6">
+            <div class="quick-action h-100" data-open-scan="sms">
+              <div class="d-flex align-items-center justify-content-between mb-1">
+                <i class="bi bi-chat-square-text text-danger"></i>
+                <span class="badge-soft badge-soft-danger">رسالة</span>
+              </div>
+              <div class="fw-semibold mb-1">فحص رسالة / نص</div>
+              <small class="text-light-emphasis">
+                اكتشف رسائل التصيّد والاحتيال.
+              </small>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="quick-action h-100" data-open-scan="link">
+              <div class="d-flex align-items-center justify-content-between mb-1">
+                <i class="bi bi-link-45deg text-info"></i>
+                <span class="badge-soft badge-soft-muted">رابط</span>
+              </div>
+              <div class="fw-semibold mb-1">فحص رابط</div>
+              <small class="text-light-emphasis">
+                تأكد من أن الموقع ليس صفحة مزيفة.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-2 mb-3">
+          <div class="col-6">
+            <div class="quick-action h-100" data-open-scan="cliq">
+              <div class="d-flex align-items-center justify-content-between mb-1">
+                <i class="bi bi-credit-card-2-front text-warning"></i>
+                <span class="badge-soft badge-soft-warning">CliQ</span>
+              </div>
+              <div class="fw-semibold mb-1">فحص CliQ / رقم</div>
+              <small class="text-light-emphasis">
+                لا ترسل المال لحسابات مشبوهة.
+              </small>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="quick-action h-100" data-open-scan="news">
+              <div class="d-flex align-items-center justify-content-between mb-1">
+                <i class="bi bi-newspaper text-success"></i>
+                <span class="badge-soft badge-soft-success">خبر</span>
+              </div>
+              <div class="fw-semibold mb-1">فحص خبر / شائعة</div>
+              <small class="text-light-emphasis">
+                اربط مع حقّك تعرف و"أكيد".
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div id="scan-workspace">
+          <!-- Dynamic scan tool content goes here -->
+        </div>
+      </section>
+
+      <!-- ALERTS TAB -->
+      <section id="tab-alerts" class="tab-section d-none">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h6 class="mb-0">التنبيهات الحية</h6>
+          <span class="pill-mini">
+            <i class="bi bi-broadcast mr-1"></i> من الجهات الرسمية
+          </span>
+        </div>
+
+        <div class="d-flex gap-1 mb-2 flex-wrap">
+          <button class="chip active" data-alert-filter="all">الكل</button>
+          <button class="chip" data-alert-filter="scam">احتيال</button>
+          <button class="chip" data-alert-filter="bank">بنوك</button>
+          <button class="chip" data-alert-filter="gov">حكومي</button>
+          <button class="chip" data-alert-filter="rumor">شائعات</button>
+        </div>
+
+        <div id="alertsList">
+          <!-- Alerts injected by JS -->
+        </div>
+      </section>
+
+      <!-- REPORT TAB -->
+      <section id="tab-report" class="tab-section d-none">
+        <h6 class="mb-2">الإبلاغ عن جريمة أو محتوى ضار</h6>
+        <small class="text-light-emphasis d-block mb-2">
+          يتم إرسال بلاغك بشكل آمن ليتم التعامل معه من الجهات المختصة (مثل وحدة
+          مكافحة الجرائم الإلكترونية).
+        </small>
+
+        <div class="mb-2">
+          <small class="text-light-emphasis d-block mb-1">نوع البلاغ</small>
+          <div class="row g-2">
+            <div class="col-6">
+              <div class="report-type-card" data-report-type="phishing">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <i class="bi bi-bug-fill text-danger"></i>
+                  <span class="badge-soft badge-soft-danger">احتيال</span>
+                </div>
+                <div class="fw-semibold mb-1">رسالة أو رابط احتيالي</div>
+                <small class="text-light-emphasis">
+                  رسائل أو روابط تنتحل مؤسسات رسمية أو بنوكاً.
+                </small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="report-type-card" data-report-type="fraud">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <i class="bi bi-credit-card-2-front text-warning"></i>
+                  <span class="badge-soft badge-soft-warning">مالي</span>
+                </div>
+                <div class="fw-semibold mb-1">احتيال مالي / CliQ</div>
+                <small class="text-light-emphasis">
+                  تحويل أموال ولم تستلم الخدمة أو المنتج.
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-2 mt-1">
+            <div class="col-6">
+              <div class="report-type-card" data-report-type="harassment">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <i class="bi bi-shield-exclamation text-info"></i>
+                  <span class="badge-soft badge-soft-muted">شخصي</span>
+                </div>
+                <div class="fw-semibold mb-1">ابتزاز أو تهديد</div>
+                <small class="text-light-emphasis">
+                  ابتزاز، صور خاصة، تهديد، أو تشويه سمعة.
+                </small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="report-type-card" data-report-type="political">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <i class="bi bi-flag-fill text-primary"></i>
+                  <span class="badge-soft badge-soft-muted">عام</span>
+                </div>
+                <div class="fw-semibold mb-1">محتوى مسيء / تحريض</div>
+                <small class="text-light-emphasis">
+                  حسابات أو منشورات تسيء للوطن أو القيادة أو تحرّض على الكراهية.
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form id="reportForm" class="mt-2">
+          <div class="mb-2">
+            <label class="form-label">وصف مختصر لما حدث</label>
+            <textarea
+              class="form-control"
+              rows="3"
+              placeholder="مثال: استلمت رسالة على واتساب تدّعي أنها من البنك وتطلب تحويل مبلغ على CliQ..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label">أين حدث ذلك؟</label>
+            <select class="form-select form-select-sm bg-dark text-light border-secondary">
+              <option selected>واتساب</option>
+              <option>رسائل SMS</option>
+              <option>فيسبوك</option>
+              <option>إنستغرام</option>
+              <option>تيك توك</option>
+              <option>تويتر / X</option>
+              <option>أخرى</option>
+            </select>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label">هل تم تحويل أموال أو خسارة مالية؟</label>
+            <div class="d-flex gap-2">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="loss"
+                  id="lossNo"
+                  checked
+                />
+                <label class="form-check-label" for="lossNo">
+                  لا
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="loss"
+                  id="lossYes"
+                />
+                <label class="form-check-label" for="lossYes">
+                  نعم
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div id="lossDetails" class="mb-2 d-none">
+            <label class="form-label">معلومات إضافية عن الخسارة</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="المبلغ التقريبي، طريقة الدفع (CliQ، بطاقة، غيره)"
+            />
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label">معلومات تواصل (اختياري)</label>
+            <input
+              type="text"
+              class="form-control mb-1"
+              placeholder="الاسم (اختياري)"
+            />
+            <input
+              type="tel"
+              class="form-control"
+              placeholder="رقم الهاتف (اختياري)"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-success w-100 mt-2">
+            <i class="bi bi-send-check ms-1"></i>
+            إرسال البلاغ بشكل آمن
+          </button>
+
+          <div id="reportStatus" class="mt-2 small text-success d-none">
+            تم إرسال البلاغ. قد تتواصل معك الجهة المختصة عند الحاجة.
+          </div>
+        </form>
+      </section>
+
+      <!-- MORE TAB -->
+      <section id="tab-more" class="tab-section d-none">
+        <h6 class="mb-2">إعدادات ومعلومات</h6>
+
+        <div class="glass-card-soft mb-3">
+          <h6 class="mb-1">الخصوصية</h6>
+          <small class="text-light-emphasis d-block mb-2">
+            يتم تحليل الرسائل والروابط على جهازك فقط. لا يتم رفع محتوى الرسائل إلى
+            أي خادم.
+          </small>
+          <div class="form-check form-switch mb-1">
+            <input class="form-check-input" type="checkbox" id="onDeviceToggle" checked />
+            <label class="form-check-label" for="onDeviceToggle">
+              تحليل محلي على الجهاز (موصى به)
+            </label>
+          </div>
+          <div class="form-check form-switch mb-1">
+            <input class="form-check-input" type="checkbox" id="anonUsageToggle" checked />
+            <label class="form-check-label" for="anonUsageToggle">
+              استخدام التطبيق بشكل مجهول الهوية
+            </label>
+          </div>
+        </div>
+
+        <div class="glass-card-soft mb-3">
+          <h6 class="mb-1">الشركاء والمؤسسات</h6>
+          <small class="text-light-emphasis">
+            هذا التصميم يهدف لتكامل مستقبلي مع:
+          </small>
+          <ul class="mt-2 small text-light-emphasis mb-0">
+            <li>المركز الوطني للأمن السيبراني (NCSC)</li>
+            <li>البنك المركزي الأردني (CBJ) و Jo-FinCERT</li>
+            <li>JoPACC ونظام CliQ</li>
+            <li>منصة حقّك تعرف ومركز "أكيد" لرصد مصداقية الإعلام</li>
+            <li>وحدة مكافحة الجرائم الإلكترونية / مديرية الأمن العام</li>
+          </ul>
+        </div>
+
+        <div class="glass-card-soft">
+          <h6 class="mb-1">عن التطبيق</h6>
+          <small class="text-light-emphasis d-block mb-1">
+            نسخة تجريبية لتصور تطبيق وطني موحّد لحماية المواطن رقمياً، تم تصميمها
+            كمشروع ابتكاري ضمن جائزة ولي العهد لأفضل تطبيق خدمات حكومية.
+          </small>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="small text-light-emphasis">
+              الإصدار: 0.1.0 (تصميم واجهة فقط)
+            </span>
+            <button class="btn btn-outline-secondary btn-sm disabled">
+              واجهة تجريبية
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+      <ul class="nav nav-pills nav-fill small px-1">
+        <li class="nav-item">
+          <a class="nav-link active" href="#" data-tab-target="home">
+            <div class="d-flex flex-column align-items-center gap-0">
+              <i class="bi bi-shield-check"></i>
+              <span>الرئيسية</span>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tab-target="scan">
+            <div class="d-flex flex-column align-items-center gap-0">
+              <i class="bi bi-search"></i>
+              <span>فحص</span>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tab-target="alerts">
+            <div class="d-flex flex-column align-items-center gap-0">
+              <i class="bi bi-broadcast-pin"></i>
+              <span>تنبيهات</span>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tab-target="report">
+            <div class="d-flex flex-column align-items-center gap-0">
+              <i class="bi bi-flag"></i>
+              <span>بلاغ</span>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tab-target="more">
+            <div class="d-flex flex-column align-items-center gap-0">
+              <i class="bi bi-three-dots"></i>
+              <span>المزيد</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Simple state
+    const state = {
+      currentTab: "home",
+      currentScanTool: null,
+      alerts: [
+        {
+          id: 1,
+          type: "scam",
+          severity: "high",
+          title: "رسائل تنتحل البريد الأردني تطلب رسوم جمركية عبر روابط مزيفة",
+          source: "NCSC + البريد الأردني",
+          time: "منذ 3 ساعات",
+          body:
+            "تنتشر حالياً رسائل نصية وروابط عبر واتساب تدّعي أنها من البريد الأردني وتطلب دفع رسوم بسيطة (1–3 دنانير) عبر مواقع غير رسمية. لا تقم بالدفع واستخدم القنوات الرسمية فقط."
+        },
+        {
+          id: 2,
+          type: "bank",
+          severity: "medium",
+          title: "تحذير من روابط تحديث بيانات الحساب البنكي",
+          source: "البنك المركزي الأردني + Jo-FinCERT",
+          time: "اليوم",
+          body:
+            "أي رسالة تطلب منك تحديث بياناتك البنكية عبر رابط قصير تعتبر مشبوهة. لا تدخل بياناتك البنكية إلا عبر التطبيق الرسمي أو الموقع المعتمد للبنك."
+        },
+        {
+          id: 3,
+          type: "rumor",
+          severity: "medium",
+          title: "نفي إشاعة تعليق العمل بمنصة دعم الخبز",
+          source: "حقّك تعرف",
+          time: "أمس",
+          body:
+            "تم نفي الأخبار المتداولة حول تعليق العمل بمنصة دعم الخبز. لا تعتمد على الرسائل المتداولة في مجموعات واتساب وتأكد من المصادر الرسمية."
+        },
+        {
+          id: 4,
+          type: "gov",
+          severity: "info",
+          title: "إطلاق خدمة جديدة للتحقق من الروابط الحكومية",
+          source: "وزارة الاقتصاد الرقمي والريادة",
+          time: "منذ يومين",
+          body:
+            "سيتم قريباً إطلاق واجهات برمجية للتحقق من الروابط الحكومية. يسمح ذلك للتطبيقات الوطنية بالتأكد من أن الرابط يعود فعلاً إلى جهة حكومية."
+        }
+      ],
+      language: "ar"
+    };
+
+    // Tab navigation
+    document.querySelectorAll("[data-tab-target]").forEach((navLink) => {
+      navLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const target = navLink.getAttribute("data-tab-target");
+        switchTab(target);
+      });
+    });
+
+    function switchTab(tabName) {
+      state.currentTab = tabName;
+
+      document.querySelectorAll(".tab-section").forEach((section) => {
+        section.classList.add("d-none");
+      });
+
+      const activeSection = document.getElementById("tab-" + tabName);
+      if (activeSection) activeSection.classList.remove("d-none");
+
+      document.querySelectorAll(".bottom-nav .nav-link").forEach((link) => {
+        link.classList.remove("active");
+        if (link.getAttribute("data-tab-target") === tabName) {
+          link.classList.add("active");
+        }
+      });
+    }
+
+    // Open scan tools from cards
+    document.querySelectorAll("[data-open-scan]").forEach((card) => {
+      card.addEventListener("click", () => {
+        const tool = card.getAttribute("data-open-scan");
+        switchTab("scan");
+        renderScanTool(tool);
+      });
+    });
+
+    // Open tab from home button
+    document.querySelectorAll("[data-open-tab]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tab = btn.getAttribute("data-open-tab");
+        switchTab(tab);
+      });
+    });
+
+    // Render scan tool workspace
+    function renderScanTool(tool) {
+      state.currentScanTool = tool;
+      const container = document.getElementById("scan-workspace");
+      if (!container) return;
+
+      let html = "";
+      if (tool === "sms") {
+        html = `
+          <div class="glass-card mt-2">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h6 class="mb-0">
+                <i class="bi bi-chat-square-text ms-1 text-danger"></i>
+                فحص رسالة / نص
+              </h6>
+              <span class="badge-soft badge-soft-danger">
+                حماية من التصيّد
+              </span>
+            </div>
+            <small class="text-light-emphasis d-block mb-2">
+              الصق محتوى الرسالة (SMS، واتساب، فيسبوك...) وسنقوم بتحليلها باستخدام
+              الذكاء الاصطناعي وقوائم الاحتيال المحدّثة.
+            </small>
+            <form id="smsScanForm">
+              <div class="mb-2">
+                <label class="form-label">نص الرسالة</label>
+                <textarea class="form-control" rows="4"
+                  placeholder="مثال: عزيزي العميل، شحنتك معلّقة، يرجى دفع 1 دينار عبر الرابط..."
+                  required></textarea>
+              </div>
+              <button type="submit" class="btn btn-info w-100">
+                <i class="bi bi-search ms-1"></i>
+                فحص الرسالة
+              </button>
+            </form>
+            <div id="smsScanResult"></div>
+          </div>
+        `;
+      } else if (tool === "link") {
+        html = `
+          <div class="glass-card mt-2">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h6 class="mb-0">
+                <i class="bi bi-link-45deg ms-1 text-info"></i>
+                فحص رابط
+              </h6>
+              <span class="badge-soft badge-soft-muted">أمان الروابط</span>
+            </div>
+            <small class="text-light-emphasis d-block mb-2">
+              الصق الرابط للتأكد من أنه ليس موقع تصيّد ينتحل البنوك، البريد الأردني، أو
+              منصات حكومية.
+            </small>
+            <form id="linkScanForm">
+              <div class="mb-2">
+                <label class="form-label">الرابط</label>
+                <input type="url" class="form-control"
+                  placeholder="https://example.com/jo-post-fees"
+                  required />
+              </div>
+              <button type="submit" class="btn btn-info w-100">
+                <i class="bi bi-search ms-1"></i>
+                فحص الرابط
+              </button>
+            </form>
+            <div id="linkScanResult"></div>
+          </div>
+        `;
+      } else if (tool === "cliq") {
+        html = `
+          <div class="glass-card mt-2">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h6 class="mb-0">
+                <i class="bi bi-credit-card-2-front ms-1 text-warning"></i>
+                فحص حساب CliQ / رقم هاتف
+              </h6>
+              <span class="badge-soft badge-soft-warning">قبل التحويل</span>
+            </div>
+            <small class="text-light-emphasis d-block mb-2">
+              أدخل رقم الهاتف أو عنوان CliQ للتحقق مما إذا كان هذا الحساب مرتبطاً
+              بحالات احتيال أو بلاغات سابقة.
+            </small>
+            <form id="cliqScanForm">
+              <div class="mb-2">
+                <label class="form-label">رقم الهاتف</label>
+                <input type="tel" class="form-control" placeholder="07X XXX XXXX" />
+              </div>
+              <div class="mb-2">
+                <label class="form-label">عنوان CliQ (اختياري)</label>
+                <input type="text" class="form-control" placeholder="@example" />
+              </div>
+              <button type="submit" class="btn btn-info w-100">
+                <i class="bi bi-search ms-1"></i>
+                فحص الحساب
+              </button>
+            </form>
+            <div id="cliqScanResult"></div>
+          </div>
+        `;
+      } else if (tool === "news") {
+        html = `
+          <div class="glass-card mt-2">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h6 class="mb-0">
+                <i class="bi bi-newspaper ms-1 text-success"></i>
+                فحص خبر / شائعة
+              </h6>
+              <span class="badge-soft badge-soft-success">ربط مع المنصات الرسمية</span>
+            </div>
+            <small class="text-light-emphasis d-block mb-2">
+              تأكد من صحة خبر، صورة، أو رسالة منتشرة عبر حقّك تعرف و"أكيد" ومعايير
+              التحقق الصحفي.
+            </small>
+            <ul class="nav nav-pills nav-fill mb-2" id="rumorTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active py-1" id="tab-news-link" data-bs-toggle="pill"
+                  data-bs-target="#pane-news-link" type="button" role="tab">
+                  رابط خبر
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link py-1" id="tab-news-text" data-bs-toggle="pill"
+                  data-bs-target="#pane-news-text" type="button" role="tab">
+                  نص / رسالة
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link py-1" id="tab-news-image" data-bs-toggle="pill"
+                  data-bs-target="#pane-news-image" type="button" role="tab">
+                  صورة / لقطة شاشة
+                </button>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="pane-news-link" role="tabpanel">
+                <form id="newsLinkForm">
+                  <div class="mb-2">
+                    <label class="form-label">رابط الخبر</label>
+                    <input type="url" class="form-control"
+                      placeholder="https://example.com/news/123"
+                      required />
+                  </div>
+                  <button type="submit" class="btn btn-info w-100">
+                    <i class="bi bi-check2-circle ms-1"></i>
+                    فحص صحة الخبر
+                  </button>
+                </form>
+              </div>
+              <div class="tab-pane fade" id="pane-news-text" role="tabpanel">
+                <form id="newsTextForm">
+                  <div class="mb-2">
+                    <label class="form-label">نص الخبر أو الرسالة</label>
+                    <textarea class="form-control" rows="4"
+                      placeholder="الصق نص الخبر أو الشائعة هنا..." required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-info w-100">
+                    <i class="bi bi-check2-circle ms-1"></i>
+                    فحص صحة النص
+                  </button>
+                </form>
+              </div>
+              <div class="tab-pane fade" id="pane-news-image" role="tabpanel">
+                <form id="newsImageForm">
+                  <div class="mb-2">
+                    <label class="form-label">صورة / لقطة شاشة</label>
+                    <input type="file" class="form-control" accept="image/*" required />
+                  </div>
+                  <button type="submit" class="btn btn-info w-100">
+                    <i class="bi bi-check2-circle ms-1"></i>
+                    محاولة التحقق من الصورة
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div id="newsScanResult" class="mt-2"></div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+      attachScanHandlers(tool);
+    }
+
+    // Attach handlers after rendering scan tool
+    function attachScanHandlers(tool) {
+      if (tool === "sms") {
+        const form = document.getElementById("smsScanForm");
+        const result = document.getElementById("smsScanResult");
+        if (!form) return;
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const text = form.querySelector("textarea").value.toLowerCase();
+          const evalResult = evaluateSms(text);
+          result.innerHTML = renderResultCard(evalResult);
+        });
+      } else if (tool === "link") {
+        const form = document.getElementById("linkScanForm");
+        const result = document.getElementById("linkScanResult");
+        if (!form) return;
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const url = form.querySelector("input").value.toLowerCase();
+          const evalResult = evaluateLink(url);
+          result.innerHTML = renderResultCard(evalResult);
+        });
+      } else if (tool === "cliq") {
+        const form = document.getElementById("cliqScanForm");
+        const result = document.getElementById("cliqScanResult");
+        if (!form) return;
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const phone = form.querySelector("input[type=tel]").value;
+          const alias = form.querySelector("input[type=text]").value;
+          const evalResult = evaluateCliq(phone, alias);
+          result.innerHTML = renderResultCard(evalResult);
+        });
+      } else if (tool === "news") {
+        const res = document.getElementById("newsScanResult");
+
+        const linkForm = document.getElementById("newsLinkForm");
+        if (linkForm) {
+          linkForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const url = linkForm.querySelector("input").value;
+            const evalResult = evaluateNews("link", url);
+            res.innerHTML = renderResultCard(evalResult, true);
+          });
+        }
+
+        const textForm = document.getElementById("newsTextForm");
+        if (textForm) {
+          textForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const text = textForm.querySelector("textarea").value;
+            const evalResult = evaluateNews("text", text);
+            res.innerHTML = renderResultCard(evalResult, true);
+          });
+        }
+
+        const imgForm = document.getElementById("newsImageForm");
+        if (imgForm) {
+          imgForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const evalResult = evaluateNews("image", "image");
+            res.innerHTML = renderResultCard(evalResult, true);
+          });
+        }
+      }
+    }
+
+    // Simple heuristic evaluators (demo only)
+    function evaluateSms(text) {
+      let level = "safe";
+      let title = "الرسالة لا تبدو احتيالية بشكل واضح";
+      let reasons = [
+        "لم يتم اكتشاف أنماط احتيال واضحة بناءً على التحليل الأولي."
+      ];
+      let actions = ["ابقَ حذراً ولا تشارك معلوماتك الحساسة."];
+
+      const suspiciousKeywords = [
+        "شحنتك",
+        "الجمرك",
+        "customs",
+        "تجميد الحساب",
+        "حسابك موقوف",
+        "اضغط على الرابط",
+        "دفع",
+        "fee",
+        "1 jd",
+        "1 دينار",
+        "link"
+      ];
+
+      const matches = suspiciousKeywords.filter((kw) => text.includes(kw));
+      if (matches.length >= 2) {
+        level = "danger";
+        title = "رسالة خطيرة – احتمال كبير أنها احتيالية";
+        reasons = [
+          "تحتوي على لهجة مستعجلة مرتبطة برسوم أو تجميد حساب.",
+          "تذكر روابط أو طلب دفعة صغيرة وهي من أشهر أساليب التصيّد.",
+          "تشبه أساليب الحملات التي تستهدف البريد الأردني والبنوك."
+        ];
+        actions = [
+          "لا تضغط على أي رابط في الرسالة.",
+          "لا تشارك الرسالة مع الآخرين.",
+          "يمكنك الإبلاغ عن هذه الرسالة عبر تبويب البلاغات."
+        ];
+      } else if (matches.length === 1) {
+        level = "warning";
+        title = "الرسالة مشبوهة – يُفضّل التأكد من الجهة الرسمية";
+        reasons = [
+          "تحتوي على تعبيرات تُستخدم كثيراً في رسائل الاحتيال.",
+          "لا يمكن التأكد بشكل قاطع من أمانها دون التحقق من الجهة الرسمية."
+        ];
+        actions = [
+          "تواصل مع الجهة (بنك، بريد، حكومة) عبر تطبيقها أو موقعها الرسمي.",
+          "لا تشارك بياناتك البنكية أو رموز التحقق."
+        ];
+      }
+
+      return { level, title, reasons, actions, type: "sms" };
+    }
+
+    function evaluateLink(url) {
+      let level = "safe";
+      let title = "الرابط يبدو سليماً وفق الفحص الأولي";
+      let reasons = [
+        "النطاق لا يشبه الأنماط الشائعة لمواقع التصيّد المعروفة."
+      ];
+      let actions = [
+        "تأكد دائماً من وجود https والقفل في المتصفح قبل إدخال بياناتك."
+      ];
+
+      const phishingPatterns = ["post", "jordan-post", "track", "click", "pay", "secure", "verify"];
+      const fakeTlds = [".top", ".xyz", ".store", ".live"];
+      const suspicious =
+        phishingPatterns.some((p) => url.includes(p)) ||
+        fakeTlds.some((t) => url.endsWith(t));
+
+      if (suspicious) {
+        level = "warning";
+        title = "الرابط مشبوه – قد يكون صفحة تصيّد";
+        reasons = [
+          "يتضمن كلمات تُستخدم كثيراً في صفحات الدفع المزيفة (pay, verify, track…).",
+          "النطاق لا يبدو كنطاق حكومي (.gov.jo) أو نطاق رسمي معروف."
+        ];
+        actions = [
+          "لا تدخل بياناتك البنكية قبل التأكد من الجهة الرسمية.",
+          "اكتب عنوان الموقع الرسمي يدوياً في المتصفح بدلاً من الضغط على الرابط."
+        ];
+      }
+
+      if (url.includes("jo-post") || url.includes("ordanpost")) {
+        level = "danger";
+        title = "رابط خطير – يشبه حملات التصيّد التي تنتحل البريد الأردني";
+        reasons = [
+          "تركيبة الرابط تشبه الروابط المستخدمة في حملات تستهدف شحنات البريد الأردني.",
+          "يتم غالباً طلب دفع مبلغ بسيط لرسوم جمركية ثم سرقة بيانات البطاقة."
+        ];
+        actions = [
+          "لا تدخل أي بيانات دفع على هذا الرابط.",
+          "استخدم تطبيق البريد الأردني الرسمي أو الموقع الحكومي فقط.",
+          "يمكنك الإبلاغ عن الرابط عبر تبويب البلاغات."
+        ];
+      }
+
+      return { level, title, reasons, actions, type: "link" };
+    }
+
+    function evaluateCliq(phone, alias) {
+      let level = "safe";
+      let title = "لم يتم العثور على سجل احتيالي معروف لهذا الحساب";
+      let reasons = [
+        "لا توجد بلاغات معروفة مرتبطة بهذا الرقم أو عنوان CliQ في قاعدة البيانات التجريبية."
+      ];
+      let actions = [
+        "يفضّل دائماً التحقق من هوية الشخص أو المتجر قبل التحويل.",
+        "تجنب تحويل مبالغ كبيرة لشخص لأول مرة."
+      ];
+
+      // Simple demo rule: treat numbers ending with 999 or alias containing "deal" as suspicious
+      if (
+        (phone && phone.endsWith("999")) ||
+        (alias && alias.toLowerCase().includes("deal"))
+      ) {
+        level = "danger";
+        title = "حساب عالي الخطورة – تم ربطه بحالات احتيال في النموذج التجريبي";
+        reasons = [
+          "تم رصد عدة بلاغات سابقة تشير إلى عدم استلام البضاعة بعد التحويل.",
+          "طريقة كتابة العنوان أو الرقم تتشابه مع حسابات تم الإبلاغ عنها."
+        ];
+        actions = [
+          "لا تقم بالتحويل إلى هذا الحساب.",
+          "اطلب وسيلة دفع أكثر أماناً أو تعامل مع جهة موثوقة أخرى.",
+          "يمكنك تقديم بلاغ رسمي عبر تبويب البلاغات."
+        ];
+      } else if (
+        (phone && phone.endsWith("11")) ||
+        (alias && alias.toLowerCase().includes("shop"))
+      ) {
+        level = "warning";
+        title = "حساب بحاجة لمزيد من الحذر قبل التحويل";
+        reasons = [
+          "لا توجد بلاغات مثبتة، لكن هناك نمط نشاط يستدعي الانتباه.",
+          "تأكد من هوية الشخص عبر مكالمة أو زيارة حساباته الرسمية."
+        ];
+        actions = [
+          "تجنب دفع المبلغ كاملاً قبل استلام الخدمة أو المنتج.",
+          "احتفظ بوثائق تثبت الاتفاق (فواتير، محادثات...)."
+        ];
+      }
+
+      return { level, title, reasons, actions, type: "cliq" };
+    }
+
+    function evaluateNews(kind, value) {
+      let level = "unknown";
+      let title = "لم يتم العثور على تحقق مباشر – يُنصح بالتريث قبل النشر";
+      let reasons = [
+        "بعض الأخبار تحتاج وقتاً حتى يتم التحقق منها من منصات التحقق الرسمية.",
+        "تأكد من وجود مصدر رسمي (موقع حكومي، بيان من جهة رسمية...)."
+      ];
+      let actions = [
+        "لا تعيد نشر الخبر قبل التأكد من صحة المصدر.",
+        "راقب منصة حقّك تعرف أو مركز أكيد للحصول على التوضيح الرسمي."
+      ];
+
+      if (kind === "link" && value.includes("haggak") || value.includes("akeed")) {
+        level = "safe";
+        title = "الخبر من منصة رسمية أو موثوقة للتحقق";
+        reasons = [
+          "الرابط يعود لمنصة تحقق رسمية أو صحفية معتمدة.",
+          "عادةً ما يتم فحص الأخبار بعناية وفق معايير مهنية."
+        ];
+        actions = [
+          "يمكنك مشاركة هذا الرابط مع الإشارة إلى أنه مصدر موثوق.",
+          "اقرأ تفاصيل التحقق لفهم سياق الخبر بشكل أفضل."
+        ];
+      } else if (kind === "text") {
+        const lower = value.toLowerCase();
+        if (lower.includes("تم ايقاف") && lower.includes("دعم") && lower.includes("الخبز")) {
+          level = "danger";
+          title = "إشاعة معروفة – تم نفيها رسمياً في أمثلة سابقة";
+          reasons = [
+            "نص الرسالة يشبه إشاعات سابقة حول وقف برامج دعم تم نفيها عبر حقّك تعرف.",
+            "استخدام عبارات عامة دون ذكر مصدر رسمي أو تاريخ محدد."
+          ];
+          actions = [
+            "لا تعيد نشر هذه الرسالة.",
+            "ابحث عن الخبر في منصة حقّك تعرف للتأكد من البيان الرسمي.",
+            "شارك التوضيح الرسمي بدلاً من الإشاعة."
+          ];
+        }
+      } else if (kind === "image") {
+        level = "warning";
+        title = "لا يمكن التأكد تلقائياً من الصورة – قد تكون قديمة أو خارجة عن سياقها";
+        reasons = [
+          "يتم كثيراً إعادة استخدام صور قديمة مع أخبار جديدة مضللة.",
+          "تحقق من تاريخ الصورة ومصدرها الأصلي عبر منصات التحقق."
+        ];
+        actions = [
+          "حاول البحث عن الصورة عبر محركات البحث المتخصصة.",
+          "تأكد من أن النص المرافق للصورة يطابق سياقها الحقيقي."
+        ];
+      }
+
+      return { level, title, reasons, actions, type: "news" };
+    }
+
+    // Render result card
+    function renderResultCard(result, isNews) {
+      let cls = "result-unknown";
+      let label = "غير معروف";
+      let icon = "bi-question-circle";
+
+      if (result.level === "safe") {
+        cls = "result-safe";
+        label = "آمن";
+        icon = "bi-check-circle-fill";
+      } else if (result.level === "warning") {
+        cls = "result-warning";
+        label = "تحذير";
+        icon = "bi-exclamation-triangle-fill";
+      } else if (result.level === "danger") {
+        cls = "result-danger";
+        label = "خطير";
+        icon = "bi-shield-exclamation";
+      }
+
+      const sourceHint =
+        isNews && result.level !== "unknown"
+          ? `<small class="d-block mt-1">* يفترض هذا المثال تكاملاً مستقبلياً مع منصات حقّك تعرف و"أكيد".</small>`
+          : "";
+
+      const reasonsHtml = result.reasons
+        .map((r) => `<li>${r}</li>`)
+        .join("");
+
+      const actionsHtml = result.actions
+        .map((a) => `<li>${a}</li>`)
+        .join("");
+
+      return `
+        <div class="result-card ${cls}">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi ${icon} fs-4"></i>
+              <div>
+                <div class="fw-semibold">${result.title}</div>
+                <small>${label}</small>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2">
+            <small class="d-block mb-1 fw-semibold">لماذا؟</small>
+            <ul class="mb-2 small">
+              ${reasonsHtml}
+            </ul>
+            <small class="d-block mb-1 fw-semibold">ماذا أفعل الآن؟</small>
+            <ul class="mb-1 small">
+              ${actionsHtml}
+            </ul>
+            ${sourceHint}
+          </div>
+        </div>
+      `;
+    }
+
+    // Alerts rendering
+    function renderAlerts(filter = "all") {
+      const container = document.getElementById("alertsList");
+      if (!container) return;
+
+      let alerts = state.alerts;
+      if (filter !== "all") {
+        alerts = alerts.filter((a) => a.type === filter);
+      }
+
+      if (!alerts.length) {
+        container.innerHTML =
+          '<small class="text-light-emphasis d-block mt-2">لا توجد تنبيهات مطابقة حالياً.</small>';
+        return;
+      }
+
+      container.innerHTML = alerts
+        .map((a) => {
+          const sevClass =
+            a.severity === "high"
+              ? "badge-soft-danger"
+              : a.severity === "medium"
+              ? "badge-soft-warning"
+              : "badge-soft-muted";
+          const sevLabel =
+            a.severity === "high"
+              ? "عالي الخطورة"
+              : a.severity === "medium"
+              ? "متوسط"
+              : "معلوماتي";
+
+          return `
+          <div class="alert-card">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="badge-soft ${sevClass}">${sevLabel}</span>
+              <small class="text-light-emphasis">${a.time}</small>
+            </div>
+            <div class="fw-semibold mb-1">${a.title}</div>
+            <small class="d-block mb-1 text-light-emphasis">
+              المصدر: ${a.source}
+            </small>
+            <small class="d-block text-light-emphasis">
+              ${a.body}
+            </small>
+          </div>
+        `;
+        })
+        .join("");
+    }
+
+    // Alerts filter buttons
+    document.querySelectorAll("[data-alert-filter]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-alert-filter]").forEach((b) =>
+          b.classList.remove("active")
+        );
+        btn.classList.add("active");
+        const filter = btn.getAttribute("data-alert-filter");
+        renderAlerts(filter);
+      });
+    });
+
+    // Report type selection
+    document.querySelectorAll("[data-report-type]").forEach((card) => {
+      card.addEventListener("click", () => {
+        document
+          .querySelectorAll("[data-report-type]")
+          .forEach((c) => c.classList.remove("active"));
+        card.classList.add("active");
+      });
+    });
+
+    // Report loss toggle
+    const lossYes = document.getElementById("lossYes");
+    const lossNo = document.getElementById("lossNo");
+    const lossDetails = document.getElementById("lossDetails");
+
+    if (lossYes && lossNo && lossDetails) {
+      lossYes.addEventListener("change", () => {
+        if (lossYes.checked) lossDetails.classList.remove("d-none");
+      });
+      lossNo.addEventListener("change", () => {
+        if (lossNo.checked) lossDetails.classList.add("d-none");
+      });
+    }
+
+    // Report form submission (demo)
+    const reportForm = document.getElementById("reportForm");
+    if (reportForm) {
+      reportForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const status = document.getElementById("reportStatus");
+        if (status) {
+          status.classList.remove("d-none");
+          setTimeout(() => {
+            status.classList.add("d-none");
+          }, 4000);
+        }
+        reportForm.reset();
+        lossDetails.classList.add("d-none");
+      });
+    }
+
+    // Language toggle (simple placeholder: just toggles label now)
+    const langBtn = document.getElementById("langToggleBtn");
+    const langLabel = document.getElementById("langToggleLabel");
+    if (langBtn && langLabel) {
+      langBtn.addEventListener("click", () => {
+        if (state.language === "ar") {
+          state.language = "en";
+          langLabel.textContent = "EN";
+          // Full content translation is not implemented in this demo,
+          // but this is where you’d switch text content.
+        } else {
+          state.language = "ar";
+          langLabel.textContent = "عربي";
+        }
+      });
+    }
+
+    // Initial render
+    renderAlerts("all");
+    renderScanTool("sms"); // default tool when entering Scan first time
+  </script>
+</body>
+</html>
+```
