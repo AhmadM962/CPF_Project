@@ -1,0 +1,420 @@
+--- Methodology.docx ---
+🛡 NASHAMA SHIELD
+National Domain Trust & Threat Detection System
+Official Methodology – Consolidated Architecture
+1. Executive Overview
+Nashama Shield is a national domain trust and phishing detection system designed for the Hashemite Kingdom of Jordan.
+The system combines:
+Authoritative regulatory domain verification
+Continuous infrastructure validation
+Proactive impersonation monitoring
+Hybrid explainable phishing detection
+Privacy-first on-device link scanning
+Its purpose is to establish a trusted digital domain ecosystem while detecting impersonation, phishing, and infrastructure abuse targeting Jordanian institutions.
+2. System Objectives
+The system is designed to:
+Establish a regulator-backed Authoritative Trust Registry (ATR)
+Continuously validate domain integrity and infrastructure consistency
+Detect typosquatting, spoofing, and impersonation attacks
+Provide explainable risk decisions with confidence scoring
+Enable national-level cyber threat intelligence sharing
+Operate partially on-device for privacy protection
+3. Guiding Principles
+Authoritative Trust FirstTrust originates from official regulatory authorities.
+Continuous VerificationTrust must be revalidated periodically.
+Explainability & AuditabilityAll decisions must be traceable and explainable.
+Privacy by DesignOn-device analysis prioritized. External queries optional.
+Regulatory ComplianceAlignment with national cybercrime and data protection laws.
+InteroperabilityIntegration with SOC, CERT, regulators, and national systems.
+4. High-Level Architecture
+Nashama Shield consists of two major functional pillars:
+Pillar A — National Trust Infrastructure
+Authoritative Trust Registry (ATR)
+Continuous Validation Layer (CVL)
+National Domain Intelligence Monitoring
+Pillar B — Link Scanning & Risk Detection Engine
+URL Normalization Layer
+Trust Registry Matching
+Hybrid Detection Engine (Rules + ML)
+External Reputation Validation (Optional)
+Final Risk Scoring & Explainability Engine
+PART I — NATIONAL TRUST INFRASTRUCTURE
+5. Phase 1 — Authoritative Trust Registry (ATR)
+5.1 Objective
+To establish a verified, regulator-backed registry of legitimate Jordanian domains.
+5.2 Data Sources
+Populated using official data from:
+Ministry of Digital Economy and Entrepreneurship
+National Cyber Security Centre
+Central Bank of Jordan
+Telecommunications Regulatory Commission
+Jordan Payments and Clearing Company
+Each authority provides:
+Licensed entities
+Official domains
+Authorized subdomains
+Validation authority reference
+5.3 Registry Structure (Master Dataset Layers)
+Layer 1 — Legal & Regulatory Identity
+Entity ID (UUID)
+Official Legal Name (English / Arabic)
+Entity Type
+Sector / Subsector
+License Number
+Licensing Authority
+License Status
+Regulatory Reference URL
+Regulatory Verification Date
+Layer 2 — Domain Identity (Core Trust Anchor)
+Root Domain
+Domain Status
+Domain Role
+Domain TLD
+Domain Creation Date
+Domain Expiry Date
+Registrar
+WHOIS Organization
+WHOIS Country
+Name Servers
+DNSSEC Enabled
+Domain Hash (SHA256)
+Layer 3 — Certificate & PKI Layer
+SSL Issuer
+SSL Serial Number
+SSL Issue Date
+SSL Expiry Date
+Certificate Transparency Logged
+Public Key Fingerprint
+Layer 4 — Infrastructure & Network Layer
+Hosting Country
+Hosting Provider
+ASN
+IP Range
+CDN Used
+Reverse DNS
+Layer 5 — AI Feature Engineering Layer (Derived)
+Domain Length
+Hyphen Count
+Subdomain Count Baseline
+Shannon Entropy Score
+Similarity Threshold Baseline
+Brand Token Presence
+Historical Change Count
+Layer 6 — Monitoring & Governance Layer
+Monitoring Enabled
+Last Technical Audit Date
+Last WHOIS Check
+Last Certificate Check
+Last DNS Check
+Change Detected
+Internal Risk Score
+Data Source Authority
+Confidence Level
+Dataset Version
+Record Status
+6. Phase 2 — Continuous Validation Layer (CVL)
+Objective
+Ensure ATR domains remain legitimate and uncompromised.
+Automated Validation Includes:
+DNS resolution consistency
+ASN ownership validation
+TLS certificate issuer validation
+Certificate fingerprint tracking
+Expiration monitoring
+Infrastructure migration detection
+Flags are escalated to the responsible regulatory authority.
+7. Phase 3 — National Domain Intelligence Monitoring
+Objective
+Detect impersonation campaigns targeting Jordanian institutions.
+Monitoring Sources:
+Newly registered domains with Jordan-related keywords
+Certificate Transparency logs
+Passive DNS
+Threat intelligence feeds
+CERT abuse reports
+Typosquatting patterns
+This layer proactively detects emerging phishing campaigns.
+PART II — LINK SCANNING & RISK DETECTION ENGINE
+8. Layer 0 — URL Normalization & Preprocessing
+Purpose
+Standardize input and detect structural manipulation.
+Processing:
+Lowercase normalization
+Punycode decoding (IDN detection)
+Extract scheme, host, registrable domain, subdomain, path, query
+Detect:
+Raw IP URLs
+URL shorteners
+Non-HTTPS schemes
+Homoglyph attacks
+Excessive encoding
+Suspicious characters
+Output:
+Canonical URL
+Structural warning flags
+9. Layer 1 — Trust Registry Matching
+Purpose
+Determine domain legitimacy against ATR.
+Logic:
+Exact match → Trusted
+Authorized subdomain → Likely Trusted
+Similar domain → Suspicious
+No relation → Continue evaluation
+Similarity detection includes:
+Levenshtein distance
+Damerau-Levenshtein
+Homoglyph detection
+Hyphen abuse detection
+Subdomain injection detection
+TLD mismatch comparison
+Outputs:
+Official match flag
+Similarity score
+Spoofing indicators
+10. Layer 2 — Hybrid Detection Engine
+A. Rule-Based Engine (Primary Explainable Layer)
+Domain-Level Signals
+Suspicious TLD
+Excessive subdomains
+Impersonation keywords
+Long domain length
+High entropy score
+URL Structure Signals
+Suspicious path keywords (login, verify, payment, otp, update)
+Encoded characters
+Multiple redirect parameters
+Presence of "@"
+Executable file endings
+Abnormal URL length
+Each signal contributes weighted risk score + explanation.
+B. Lightweight ML Model (Optional Enhancement)
+Recommended models:
+Logistic Regression
+Linear SVM
+Small Decision Tree
+Input features:
+Lexical domain features
+Structural signals
+Similarity metrics
+Infrastructure features
+Output:
+Probability score (0–1)
+Feature importance contributions
+Explainability tools must be integrated for regulatory transparency.
+11. Layer 3 — External Reputation Verification (Optional)
+Purpose: Reinforcement validation.
+Sources may include:
+VirusTotal
+Google Safe Browsing
+Government-approved API
+Privacy Modes:
+Default: No full URL transmission
+Optional: User-consent external scan
+Output:
+External verdict
+Engine consensus weight
+12. Final Risk Scoring Engine
+Each layer contributes weighted signals:
+ATR match → Highest weight
+Structural signals → Medium weight
+ML probability → Medium weight
+External confirmation → Adjustable weight
+Risk Categories
+Safe
+Warning
+Dangerous
+Confidence Levels
+Based on:
+Strength of indicators
+Cross-layer agreement
+External validation presence
+Confidence:
+High
+Medium
+Low
+Risk and Confidence are separate outputs.
+13. Final Output Format
+Each scan returns:
+Risk Level
+Confidence Level
+Top Reasons (max 4)
+Domain Comparison (if similarity detected)
+Recommended Action
+Advanced Technical Details (expandable)
+14. Interoperability & National Integration
+Supports:
+REST APIs
+STIX/TAXII
+MISP compatibility
+SOC integration
+Event-driven alerting
+Enables:
+Cross-agency intelligence sharing
+Coordinated incident response
+Campaign tracking
+15. Governance & Compliance
+Legal Alignment
+National cybercrime legislation
+Personal Data Protection Law
+Government digital governance standards
+Controls
+No personal WHOIS storage
+RBAC access control
+Full audit logging
+Encrypted storage
+Version-controlled registry updates
+Regulatory authorities retain ownership of their submitted data.
+16. Implementation Roadmap
+Finalize ATR schema
+Establish regulator data-sharing agreements
+Build secure infrastructure
+Implement Continuous Validation Layer
+Deploy Intelligence Monitoring
+Implement Link Scanning Engine
+Introduce ML classification
+Integrate with National SOC
+Governance and trust infrastructure precede ML deployment.
+Conclusion
+Nashama Shield is designed as a national digital trust infrastructure — not merely a phishing detection tool.
+By combining:
+Authoritative regulatory data
+Continuous infrastructure validation
+Proactive intelligence monitoring
+Explainable hybrid risk scoring
+The system ensures that trust in Jordan’s digital ecosystem is verifiable, continuously protected, and nationally interoperable.
+
+--- Comments on the link scanning feaqture - Shamma.docx ---
+1 Builds a List of Trusted Websites
+It creates an official list of real, approved Jordanian websites.The information comes from trusted government authorities.
+The system checks:
+Who owns the website
+If the domain is real
+If the security certificate is valid
+Where the website is hosted
+It keeps checking these websites regularly to make sure they stay safe and are not hacked.
+It also watches for new fake websites that try to copy real ones.
+2️ Scans Links for Danger
+When someone checks a link, the system:
+Cleans and analyzes the URL
+Compares it with the official trusted list
+Looks for signs of phishing (like fake login pages, strange domains, suspicious words)
+Optionally checks external security databases
+Then it gives:
+A Risk Level (Safe, Warning, Dangerous)
+A Confidence Level (High, Medium, Low)
+Clear reasons explaining why
+Important Features
+Uses official government data
+Continuously checks websites
+Explains its decisions clearly
+Protects user privacy
+Can connect with national cyber security systems
+AI Methodology – Technical Comments and Suggestions
+After reviewing the AI section, I believe the current approach is promising but slightly too broad. To achieve high accuracy and realistic deployment, I suggest narrowing the AI scope and restructuring the pipeline. Below are the technical improvements I recommend.
+1. Narrow the AI task
+Instead of trying to detect every type of cyber threat, let us focus the ML model on a single clear question:
+“Is this URL or domain likely malicious or impersonating a trusted Jordanian entity?”
+This is a much more manageable and measurable task. Trying to detect all phishing behaviors at once will reduce accuracy and increase complexity.
+2. Use a staged pipeline instead of a single classifier
+Rather than relying entirely on machine learning, I suggest designing a multi-stage decision pipeline:
+Stage 1: Exact ATR registry match → mark as trusted
+Stage 2: Apply deterministic rules → detect obvious threats
+Stage 3: Use ML only for suspicious or uncertain cases
+This approach will reduce noise, improve precision, and make the system easier to deploy and maintain.
+3. Start with classical machine learning models
+For phishing detection on URLs and domains, complex deep learning models are not necessary.
+I suggest we start with classical ML models such as:
+Logistic Regression
+Random Forest
+XGBoost
+LightGBM
+These models are easier to train, require less data, provide faster inference, and perform extremely well on tabular and lexical features. Personally, I would prioritize LightGBM or XGBoost for the best balance between accuracy and practicality.
+4. Focus heavily on feature engineering
+In this problem, feature quality will matter more than model complexity. Let us prioritize building strong domain-based features.
+Key features we should include:
+Edit distance to official domains
+Homoglyph detection
+Suspicious token presence
+TLD mismatch
+Subdomain depth
+Domain entropy
+Domain length
+Number of hyphens or digits
+Brand token misuse
+Suspicious path keywords such as login, verify, otp, payment
+HTTPS presence
+Raw IP usage
+URL shortening services
+With well-engineered features, even simple models can achieve strong performance.
+5. Add Jordan-specific intelligence
+To improve accuracy beyond generic phishing detectors, we should incorporate Jordan-specific contextual features.
+Examples we can add:
+Similarity to domains in the ATR registry
+Arabic and English entity name matching
+Jordanian government and banking keyword patterns
+Sector mapping (bank, telecom, ministry, payment service)
+Arabic transliteration variations of institution names
+These localized features will likely improve performance significantly.
+6. Build a carefully curated dataset
+The dataset will be the most critical factor affecting model performance. Let us construct a clean and balanced dataset that includes:
+Legitimate Jordanian domains
+Phishing domains targeting Jordanian institutions
+Benign international domains
+Typosquatting or impersonation domains
+We should also avoid data leakage. For example, if bankofjordan.com is used in training, very similar variants should not appear in both training and testing sets randomly. Instead, we should split the data by domain family or campaign.
+7. Optimize for precision rather than raw accuracy
+For a national trust system, false positives are dangerous. Incorrectly flagging a legitimate government or banking website would be a serious issue.
+Therefore, our evaluation goals should prioritize:
+High precision for dangerous predictions
+Strong recall for impersonation attempts
+Very low false positive rates for trusted Jordanian domains
+Accuracy alone can be misleading, especially with imbalanced datasets.
+8. Calibrate model probabilities
+Since the system will output confidence levels, the model probabilities should be calibrated.
+We can apply techniques such as:
+Platt scaling
+Isotonic calibration
+This will ensure that a probability score like 0.9 actually reflects a true confidence level, which is important for trust-based systems.
+9. Separate risk scoring from the ML output
+The ML model probability should not directly become the final risk score.
+Instead, I recommend creating a final scoring layer that combines multiple signals:
+ML phishing probability
+Rule engine severity
+ATR trust level
+This weighted scoring approach will make the system more controllable and transparent.
+10. Address class imbalance explicitly
+Phishing datasets are naturally imbalanced.
+To handle this properly, we should use:
+Class weighting during training
+Threshold tuning
+Precision-recall evaluation
+For this type of tabular classification problem, these techniques are usually sufficient before considering more advanced loss functions.
+11. Evaluate the model on realistic attack cases
+Instead of testing only on random samples, we should design a challenging evaluation set including:
+Typosquatting domains
+Homoglyph attacks
+Subdomain injection
+Newly registered look-alike domains
+Arabic-script deception
+Legitimate domains with unusual structures
+These cases will better reflect real-world phishing scenarios.
+12. Validate temporal robustness
+Phishing techniques evolve quickly. A model trained once may degrade over time.
+To test robustness, we should perform time-based validation, where we train on older data and evaluate on newer domains. This will give a more realistic estimate of long-term performance.
+13. Be cautious with external reputation sources
+External services such as VirusTotal or Safe Browsing can artificially inflate model performance if used directly as training features.
+If we use them, they should be:
+Applied in a separate post-ML layer, or
+Used only for evaluation and comparison
+Otherwise the model may simply learn proxy labels instead of genuine phishing patterns.
+Final recommendation
+To make the system both feasible and highly accurate, I recommend implementing the following architecture:
+ATR registry and rule engine for obvious cases
+LightGBM or XGBoost as the core ML classifier
+Strong lexical and similarity-based features
+Probability calibration
+Threshold tuning for high precision
+ML used only for uncertain cases
+This approach reframes the AI component as:
+a trust-assisted phishing classifier for Jordanian domains, rather than a general cyber-security AI system.
+This narrower scope will significantly increase both accuracy and practical feasibility.

@@ -1,0 +1,122 @@
+{
+  "loaded_domains": 67,
+  "tests": [
+    {
+      "url": "https://www.jordan.gov.jo/wps/portal/Home",
+      "result": {
+        "risk": "SAFE",
+        "confidence": "HIGH",
+        "reasons": [
+          "Exact match in Authoritative Trust Registry"
+        ]
+      }
+    },
+    {
+      "url": "https://bankofjordan.com/en",
+      "result": {
+        "risk": "SAFE",
+        "confidence": "HIGH",
+        "reasons": [
+          "Exact match in Authoritative Trust Registry"
+        ]
+      }
+    },
+    {
+      "url": "http://cbj.gov.jo",
+      "result": {
+        "risk": "WARNING",
+        "confidence": "LOW",
+        "reasons": [
+          "Domain not found in ATR, but no malicious signals detected"
+        ]
+      }
+    },
+    {
+      "url": "http://bank-of-jordan.com/login",
+      "result": {
+        "risk": "DANGEROUS",
+        "confidence": "HIGH",
+        "reasons": [
+          "Suspicious keyword 'login' found in URL",
+          "Domain highly similar to bankofjordan.com (Score: 88.9%)"
+        ]
+      }
+    },
+    {
+      "url": "https://paypa1.com/secure/payment",
+      "result": {
+        "risk": "WARNING",
+        "confidence": "MEDIUM",
+        "reasons": [
+          "Suspicious keyword 'payment' found in URL",
+          "Suspicious keyword 'secure' found in URL"
+        ]
+      }
+    },
+    {
+      "url": "http://jordanbank-secure.com/update-account",
+      "result": {
+        "risk": "WARNING",
+        "confidence": "MEDIUM",
+        "reasons": [
+          "Suspicious keyword 'update' found in URL",
+          "Suspicious keyword 'account' found in URL"
+        ]
+      }
+    },
+    {
+      "url": "http://cbj.gov-jo.com/otp",
+      "result": {
+        "risk": "WARNING",
+        "confidence": "LOW",
+        "reasons": [
+          "Suspicious keyword 'otp' found in URL"
+        ]
+      }
+    },
+    {
+      "url": "https://example.com/about-us",
+      "result": {
+        "risk": "WARNING",
+        "confidence": "LOW",
+        "reasons": [
+          "Domain not found in ATR, but no malicious signals detected"
+        ]
+      }
+    },
+    {
+      "url": "http://192.168.1.1/login",
+      "result": {
+        "risk": "DANGEROUS",
+        "confidence": "HIGH",
+        "reasons": [
+          "High number of digits in domain (8)",
+          "Suspicious keyword 'login' found in URL",
+          "Domain is a raw IP address"
+        ]
+      }
+    },
+    {
+      "url": "https://bit.ly/3xyz789",
+      "result": {
+        "risk": "WARNING",
+        "confidence": "MEDIUM",
+        "reasons": [
+          "URL Shortener detected (bit.ly)"
+        ]
+      }
+    },
+    {
+      "url": "http://very-long-domain-name-with-many-hyphens-1234.xyz/verify",
+      "result": {
+        "risk": "DANGEROUS",
+        "confidence": "HIGH",
+        "reasons": [
+          "Domain length is unusually long (>30 chars)",
+          "Excessive hyphens in domain (7)",
+          "Untrusted TLD used (.xyz)"
+        ]
+      }
+    }
+  ]
+}
